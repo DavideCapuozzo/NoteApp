@@ -2,10 +2,10 @@ import express = require('express')
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-/* const authRouter = require('./routes/auth/auth-routes') */
+const authRouter = require('./routes/auth/auth-routes')
 
 // create a database connection'
-mongoose.connect('mongodb+srv://devsoloweb:3bkK56PRZWH3pH8v@cluster0.vx3osfa.mongodb.net/').then(()=>console.log('MongoDB Connected')).catch((error: unknown) => console.log(error));
+mongoose.connect('mongodb+srv://noteapp:2AkbS7kazAjQDMgL@cluster0.mzcwgzu.mongodb.net/').then(()=>console.log('MongoDB Connected')).catch((error: unknown) => console.log(error));
 //devsoloweb
 //3bkK56PRZWH3pH8v
 //mongodb+srv://devsoloweb:3bkK56PRZWH3pH8v@cluster0.vx3osfa.mongodb.net/
@@ -16,21 +16,21 @@ const PORT = process.env.PORT || 5000;
 app.use(
     cors({
         origin: 'http://localhost:5173',
-        methods : ['GET', 'POST', 'DELETE', 'PUT'],
-        allowedHeaders : [
+        methods: ['GET', 'POST', 'DELETE', 'PUT'],
+        allowedHeaders: [
             "Content-Type",
-            "Auttorization",
+            "Authorization",
             "Cache-Control",
             "Expires",
             "Pragma"
         ],
-        credentials : true
+        credentials: true
     })
 )
 
 app.use(cookieParser());
 app.use(express.json());
-/* app.use('/api/auth', authRouter) */
+app.use('/api/auth', authRouter)
 
 
 
