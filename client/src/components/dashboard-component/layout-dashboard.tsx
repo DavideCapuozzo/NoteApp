@@ -10,7 +10,7 @@ export default function LayoutDashboard() {
 
 
   return (
-    <div className="flex flex-col min-h-[100dvh] bg-[#fdfdfc]">
+    <div className="flex flex-col min-h-screen bg-[#fdfdfc]">
       <Menu />
       <Home onClick={() => navigate('/note')}/>
       <Footer />

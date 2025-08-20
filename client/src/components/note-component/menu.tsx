@@ -1,5 +1,7 @@
 import * as React from "react"
-import { Pencil, LogOut, User } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import { LogOut, User, Save, Download } from "lucide-react"
+import { FaTimes } from "react-icons/fa"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -14,25 +16,35 @@ import { logoutUser } from '../../store/auth-slice'
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 
-export default function NoteMenu({ ...props }: React.ComponentProps<typeof any>) {
-
+export default function NoteMenu(props: React.ComponentProps<'div'>) {
   const dispatch = useDispatch<AppDispatch>()
-
+  const navigate = useNavigate();
 
   function handleLogout(){
       dispatch(logoutUser()).then((data:any)=>{
         toast.success(data?.payload?.message);
       })
-      
+  }
+
+  function handleClose(){
+    navigate('/myuser');
   }
 
   return (
     <header className="w-full flex justify-center">
       <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[90px]">
-        {/* Icona Matita */}
-        <button className="flex items-center gap-2 hover:text-blue-600 transition">
-          <Pencil className="h-6 w-6" />
-        </button>
+        {/* Icone a sinistra */}
+        <div className="flex gap-4">
+          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Chiudi" onClick={handleClose}>
+            <FaTimes className="h-6 w-6" />
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Salva">
+            <Save className="h-6 w-6" strokeWidth={2} />
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Download">
+            <Download className="h-6 w-6" strokeWidth={2} />
+          </button>
+        </div>
 
         {/* Menu Utente */}
         <DropdownMenu>
