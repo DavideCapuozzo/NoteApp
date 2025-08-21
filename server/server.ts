@@ -1,9 +1,11 @@
-import express = require('express')
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const authRouter = require('./routes/auth/auth-routes')
-import noteRouter from './routes/note/note-routes'
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import authRouter from './routes/auth/auth-routes';
+import noteRouter from './routes/note/note-routes';
+import mongoose from 'mongoose';
+
+
 
 // create a database connection'
 mongoose.connect('mongodb+srv://noteapp:2AkbS7kazAjQDMgL@cluster0.mzcwgzu.mongodb.net/').then(()=>console.log('MongoDB Connected')).catch((error: unknown) => console.log(error));

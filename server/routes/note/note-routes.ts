@@ -1,14 +1,9 @@
-import express from 'express';
-import {
-    createNote,
-    getNotes,
-    getNote,
-    updateNote,
-    deleteNote
-} from '../../controllers/note/note-controller';
-import { authMiddleware } from '../../controllers/auth/auth-controller';
 
+const { createNote, getNotes, getNote, updateNote, deleteNote } = require('../../controllers/note/note-controller');
+import express from 'express';
 const router = express.Router();
+
+import {authMiddleware} from '../../controllers/auth/auth-controller';
 
 // Tutte le rotte richiedono autenticazione
 router.use(authMiddleware);

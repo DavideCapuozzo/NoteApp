@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Note from '../../models/Note';
+const Note = require ('../../models/Note');
 
 // CREATE NOTE
 export const createNote = async (req: any, res: Response) => {
@@ -69,3 +69,5 @@ export const deleteNote = async (req: any, res: Response) => {
         res.status(500).json({ success: false, message: 'Error deleting note' });
     }
 };
+
+

@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose: typeof import("mongoose") = require("mongoose");
 const NoteSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -17,4 +16,4 @@ const NoteSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Note = mongoose.model('Note', NoteSchema);
-export default Note;
+module.exports = Note;

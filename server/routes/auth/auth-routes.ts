@@ -1,6 +1,5 @@
-const express = require('express')
 const {registerUser, loginUser, logoutUser ,authMiddleware} = require('../../controllers/auth/auth-controller')
-
+import express from 'express';
 
 const router = express.Router();
 
@@ -16,4 +15,4 @@ router.get('/check-auth', authMiddleware, (req:any, res:any) => {
     });
 });
 
-module.exports = router;
+export default router;
