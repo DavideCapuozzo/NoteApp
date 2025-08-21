@@ -44,16 +44,23 @@ export default function LayoutNote() {
   }, [currentNote]);
 
   const handleSave = () => {
+    toast.loading('Salvataggio in corso...');
     if (currentNote) {
-      dispatch(updateNote({ id: currentNote._id, note: { title, content } }));
-      navigate('/myuser');
-      toast.success('Nota aggiornata con successo');
+      dispatch(updateNote({ id: currentNote._id, note: { title, content } }))
+        .then(() => {
+          toast.dismiss();
+          toast.success('Nota aggiornata con successo');
+          navigate('/myuser');
+        });
     } else {
-      dispatch(createNote({ title, content }));
-      setTitle("");
-      setContent("");
-      navigate('/myuser');
-      toast.success('Nota creata con successo');
+      dispatch(createNote({ title, content }))
+        .then(() => {
+          setTitle("");
+          setContent("");
+          toast.dismiss();
+          toast.success('Nota creata con successo');
+          navigate('/myuser');
+        });
     }
   };
 
