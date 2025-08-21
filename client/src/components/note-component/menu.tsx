@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Trash2 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { LogOut, User, Save, Download } from "lucide-react"
 import { FaTimes } from "react-icons/fa"
@@ -16,7 +17,7 @@ import { logoutUser } from '../../store/auth-slice'
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 
-export default function NoteMenu(props: React.ComponentProps<'div'>) {
+export default function NoteMenu({ onSave, onDelete }: { onSave: () => void; onDelete: () => void }) {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
 
@@ -35,13 +36,16 @@ export default function NoteMenu(props: React.ComponentProps<'div'>) {
       <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[90px]">
         {/* Icone a sinistra */}
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Chiudi" onClick={handleClose}>
+          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Chiudi" onClick={handleClose}>
             <FaTimes className="h-6 w-6" />
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Salva">
+          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Salva" onClick={onSave}>
             <Save className="h-6 w-6" strokeWidth={2} />
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-600 transition" title="Download">
+          <button className="flex items-center gap-2 hover:text-red-600 transition cursor-pointer" title="Elimina" onClick={onDelete}>
+            <Trash2 className="h-6 w-6" strokeWidth={2} />
+          </button>
+          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Download">
             <Download className="h-6 w-6" strokeWidth={2} />
           </button>
         </div>

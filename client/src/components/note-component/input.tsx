@@ -1,19 +1,20 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { useAppDispatch } from "../../hooks";
 import { createNote, updateNote } from "../../store/note-slice/notesSlice";
 
 type NoteInputProps = {
     aiInputHeight: number;
     note?: { _id: string; title: string; content: string };
+    title: string;
+    setTitle: (t: string) => void;
+    content: string;
+    setContent: (c: string) => void;
 };
 
-export default function NoteInput({ aiInputHeight, note }: NoteInputProps) {
+export default function NoteInput({ aiInputHeight, note, title, setTitle, content, setContent }: NoteInputProps) {
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const dispatch = useAppDispatch();
-
-    const [title, setTitle] = useState(note?.title || "");
-    const [content, setContent] = useState(note?.content || "");
 
     // Aggiorna il form se cambia la nota
     useEffect(() => {
@@ -21,7 +22,7 @@ export default function NoteInput({ aiInputHeight, note }: NoteInputProps) {
             setTitle(note.title);
             setContent(note.content);
         }
-    }, [note]);
+    }, [note, setTitle, setContent]);
 
     const adjustHeight = (element: HTMLTextAreaElement | null) => {
         if (element) {
@@ -86,12 +87,6 @@ export default function NoteInput({ aiInputHeight, note }: NoteInputProps) {
                         marginBottom: `${aiInputHeight + 150}px`
                     }}
                 />
-                <button
-                    type="submit"
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    Salva
-                </button>
             </div>
         </form>
     );
