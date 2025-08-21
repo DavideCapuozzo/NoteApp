@@ -1,8 +1,12 @@
 import React, { useRef, useEffect } from "react";
 
-export default function NoteInput() {
+type NoteInputProps = { aiInputHeight: number };
+
+export default function NoteInput({ aiInputHeight }: NoteInputProps) {
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
+
+    
 
     const adjustHeight = (element: HTMLTextAreaElement | null) => {
         if (element) {
@@ -38,10 +42,15 @@ export default function NoteInput() {
                     autoComplete="off"
                     spellCheck={false}
                     rows={1}
-                    className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words hyphens-auto text-[25px] mb-10"
+                    className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words hyphens-auto text-[25px]"
                     placeholder="Mother died today. Or, maybe, yesterday; I can't be sure. The telegram from the Home says: YOUR MOTHER PASSED AWAY. FUNERAL TOMORROW. DEEP SYMPATHY. Which leaves the matter doubtful; it could have been yesterday."
                     onInput={handleInput}
-                    style={{ overflow: "hidden", overflowWrap: "break-word", textAlign: "start" }}
+                    style={{
+                        overflow: "hidden",
+                        overflowWrap: "break-word",
+                        textAlign: "start",
+                        marginBottom: `${aiInputHeight+150}px`
+                    }}
                 />
             </div>
         </div>

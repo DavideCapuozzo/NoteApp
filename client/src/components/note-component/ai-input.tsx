@@ -3,7 +3,8 @@ import { motion, useAnimation } from "motion/react";
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { FaTimes, FaRegPaperPlane, FaUpload } from "react-icons/fa"; // <-- add FaUpload
 
-export default function AiInput(props: React.ComponentProps<"div">) {
+type AiInputProps = { onHeightChange?: (h: number) => void };
+export default function AiInput(props: AiInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [height, setHeight] = useState<number>(50); // altezza dinamica parent
   const [radius, setRadius] = useState<number>(50); // border radius
@@ -12,6 +13,11 @@ export default function AiInput(props: React.ComponentProps<"div">) {
   const iconsHeight = 56; // icone + padding
   const extraPadding = 32;
   const minParentHeight = minTextarea + iconsHeight + extraPadding;
+
+  // Aggiorna il parent ogni volta che height cambia
+  React.useEffect(() => {
+    if (props.onHeightChange) props.onHeightChange(height);
+  }, [height]);
 
   
 
@@ -95,10 +101,9 @@ export default function AiInput(props: React.ComponentProps<"div">) {
                     overflowWrap: "break-word",
                     textAlign: "start",
                     minHeight: `${minTextarea}px`,
-                    maxHeight: "320px"
+                    maxHeight: "320px",
+                    height: textareaRef.current ? textareaRef.current.style.height : `${minTextarea}px`
                   }}
-                  animate={{ height: textareaRef.current ? textareaRef.current.style.height : `${minTextarea}px` }}
-                  transition={{ duration: 0.3 }}
                   onInput={handleInput}
                 />
               </div>
@@ -145,93 +150,4 @@ export default function AiInput(props: React.ComponentProps<"div">) {
     </div>
   );
 }
-
-
-
-/* export default function AiInput(props: React.ComponentProps<'div'>) {
-    const [value, setValue] = useState("");
-    const [isGenerating, setIsGenerating] = useState(false);
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    const adjustHeight = (element: HTMLTextAreaElement | null) => {
-        if (element) {
-            element.style.height = "auto";
-            element.style.height = `${element.scrollHeight}px`;
-        }
-    };
-
-    const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setValue(e.target.value);
-        adjustHeight(e.target);
-    };
-
-    const handleSend = () => {
-        if (value.trim() === "") return;
-        setIsGenerating(true);
-
-        setTimeout(() => {
-            setIsGenerating(false);
-            setValue("");
-            if (textareaRef.current) {
-                textareaRef.current.style.height = "auto";
-            }
-        }, 1500);
-    };
-
-    const handleStop = () => {
-        setIsGenerating(false);
-    };
-
-    return (
-        <div className="fixed bottom-0 left-0 w-full bg-[#f7f7f8] dark:bg-[#343541] border-t border-gray-200 dark:border-gray-700 px-2 py-4 flex justify-center z-50">
-            <div className="relative flex items-end w-full max-w-2xl">
-                <button
-                    className="absolute left-2 bottom-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                    type="button"
-                    tabIndex={-1}
-                >
-                    <FaPlus size={18} />
-                </button>
-                <textarea
-                    ref={textareaRef}
-                    value={value}
-                    onChange={handleInput}
-                    rows={1}
-                    placeholder="Send a message..."
-                    className="w-full pl-8 pr-12 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#40414f] text-gray-900 dark:text-white resize-none outline-none shadow-sm focus:ring-2 focus:ring-blue-500 transition-all"
-                    style={{
-                        minHeight: "44px",
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                    }}
-                    disabled={isGenerating}
-                />
-                <div className="absolute right-2 bottom-2 flex items-center">
-                    {isGenerating ? (
-                        <>
-                            <button
-                                className="text-red-500 hover:text-red-700 mr-2"
-                                onClick={handleStop}
-                                type="button"
-                            >
-                                <FaStop size={18} />
-                            </button>
-                            <FiLoader className="animate-spin text-gray-400" size={18} />
-                        </>
-                    ) : (
-                        <button
-                            className={`text-blue-500 hover:text-blue-700 ${value.trim() ? "" : "opacity-50 cursor-not-allowed"}`}
-                            onClick={handleSend}
-                            type="button"
-                            disabled={!value.trim()}
-                        >
-                            <FaRegPaperPlane size={18} />
-                        </button>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-} */
-
 
