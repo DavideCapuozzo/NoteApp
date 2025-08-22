@@ -5,6 +5,7 @@ interface Note {
     _id: string;
     title: string;
     content: string;
+    updatedAt?: string;
 }
 
 interface NotesState {
