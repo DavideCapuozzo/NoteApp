@@ -9,31 +9,23 @@ import { useAppDispatch } from "../../hooks";
 import { fetchNotes } from "@/store/note-slice/notesSlice";
 
 export default function LayoutDashboard() {
-
   const dispatch = useAppDispatch();
   const { notes, loading } = useAppSelector(state => state.notes);
   const { isAuthenticated } = useAppSelector(state => state.auth);
 
   React.useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(fetchNotes());
+    if (isAuthenticated && notes.length === 0 && !loading) {
+      dispatch(fetchNotes({ page: 1, limit: 10 }));
     }
-  }, [dispatch, isAuthenticated]);
+  }, [isAuthenticated, dispatch, notes.length, loading]);
 
-  if (loading) {
-    return (
-      <div className="flex flex-col min-h-screen bg-[#fdfdfc]">
-        <Menu />
-        <div className="flex flex-1 items-center justify-center text-2xl font-bold">Caricamento...</div>
-        <Footer />
-      </div>
-    );
-  }
+
+  // Rimuovo il blocco di loading globale: il caricamento viene gestito solo in NotesList
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fdfdfc]">
       <Menu />
-      {notes && notes.length > 0 ? <NotesList notes={notes} /> : <Home />}
+      {isAuthenticated && notes && notes.length > 0 ? <NotesList notes={notes} /> : <NotesList notes={[]} />}
       <Footer />
     </div>
   );

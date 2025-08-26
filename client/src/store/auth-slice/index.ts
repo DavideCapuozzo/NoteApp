@@ -63,7 +63,8 @@ export const logoutUser = createAsyncThunk("/auth/logout",
         // andro a completare il mio link con register che 'e la route 
         // che mi permette di accedere al controller 
         const response = await axios.post(`http://localhost:5000/api/auth/logout`, {}, {
-            withCredentials: true
+            withCredentials: true,
+            
         });
 
         return response.data;
@@ -74,8 +75,11 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUser: (state, action) => {
-
+        setUser: (state, action) => {},
+        resetAuth: (state) => {
+            state.isAuthenticated = false;
+            state.isLoading = false;
+            state.user = null;
         }
     },
     extraReducers: (builder) => {
@@ -129,5 +133,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { setUser } = authSlice.actions;
+export const { setUser, resetAuth } = authSlice.actions;
 export default authSlice.reducer

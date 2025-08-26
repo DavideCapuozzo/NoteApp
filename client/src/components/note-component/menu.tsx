@@ -13,22 +13,64 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useDispatch } from 'react-redux'
-import { logoutUser } from '../../store/auth-slice'
+import { logoutUser, resetAuth } from '../../store/auth-slice/index';
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 
-export default function NoteMenu({ onSave, onDelete }: { onSave: () => void; onDelete: () => void }) {
+export default function NoteMenu({ onSave, onDelete, noteTitle, noteContent }: { 
+  onSave: () => void; 
+  onDelete: () => void;
+  noteTitle?: string;
+  noteContent?: string;
+}) {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
 
   function handleLogout(){
-      dispatch(logoutUser()).then((data:any)=>{
-        toast.success(data?.payload?.message);
-      })
+    dispatch(logoutUser()).then((data:any)=>{
+      // Reset dello stato auth e notes
+      dispatch(resetAuth());
+      dispatch({ type: 'notes/resetNotes' });
+      toast.success(data?.payload?.message);
+    });
   }
 
   function handleClose(){
     navigate('/myuser');
+  }
+
+  function handleDownload(){
+    if (!noteTitle && !noteContent) {
+      toast.error('Nessun contenuto da scaricare');
+      return;
+    }
+
+    // Crea il contenuto del file txt
+    const txtContent = `${noteTitle || 'Nota senza titolo'}\n${'='.repeat((noteTitle || 'Nota senza titolo').length)}\n\n${noteContent || ''}`;
+    
+    // Crea un blob con il contenuto
+    const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+    
+    // Crea un URL temporaneo per il download
+    const url = window.URL.createObjectURL(blob);
+    
+    // Crea un elemento anchor temporaneo per il download
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Nome del file basato sul titolo della nota
+    const fileName = noteTitle || 'Nota senza titolo';
+    link.download = `${fileName}.txt`;
+    
+    // Simula il click per avviare il download
+    document.body.appendChild(link);
+    link.click();
+    
+    // Pulizia
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    toast.success('Download completato');
   }
 
   return (
@@ -45,7 +87,7 @@ export default function NoteMenu({ onSave, onDelete }: { onSave: () => void; onD
           <button className="flex items-center gap-2 hover:text-red-600 transition cursor-pointer" title="Elimina" onClick={onDelete}>
             <Trash2 className="h-6 w-6" strokeWidth={2} />
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Download">
+          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Download" onClick={handleDownload}>
             <Download className="h-6 w-6" strokeWidth={2} />
           </button>
         </div>

@@ -10,12 +10,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useDispatch } from 'react-redux'
-import { logoutUser } from '../../store/auth-slice'
+import { logoutUser, resetAuth } from '../../store/auth-slice'
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 import { useNavigate } from "react-router-dom"
 
-export function Menu({ ...props }: React.ComponentProps<typeof any>) {
+export function Menu({ ...props }: React.ComponentProps<'div'>) {
 
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
@@ -23,6 +23,9 @@ export function Menu({ ...props }: React.ComponentProps<typeof any>) {
 
   function handleLogout(){
       dispatch(logoutUser()).then((data:any)=>{
+        // Reset dello stato auth e notes
+        dispatch(resetAuth());
+        dispatch({ type: 'notes/resetNotes' });
         toast.success(data?.payload?.message);
       })
       

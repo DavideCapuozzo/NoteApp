@@ -54,12 +54,17 @@ export default function LayoutNote() {
         });
     } else {
       dispatch(createNote({ title, content }))
-        .then(() => {
+        .then((result:any) => {
           setTitle("");
           setContent("");
           toast.dismiss();
           toast.success('Nota creata con successo');
-          navigate('/myuser');
+          // Naviga direttamente alla nota appena creata
+          if(result?.payload?._id){
+            navigate(`/note/${result.payload._id}`);
+          } else {
+            navigate('/myuser');
+          }
         });
     }
   };
@@ -76,7 +81,12 @@ export default function LayoutNote() {
 
   return (
     <div className="flex flex-col bg-[#fdfdfc] justify-center">
-      <NoteMenu onSave={handleSave} onDelete={handleDelete} />
+      <NoteMenu 
+        onSave={handleSave} 
+        onDelete={handleDelete} 
+        noteTitle={title}
+        noteContent={content}
+      />
       {/* Passiamo la nota caricata (o undefined) a NoteInput */}
       <NoteInput
         aiInputHeight={aiInputHeight}

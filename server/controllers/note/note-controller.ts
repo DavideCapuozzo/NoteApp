@@ -21,8 +21,24 @@ export const createNote = async (req: any, res: Response) => {
 // GET ALL NOTES OF USER
 export const getNotes = async (req: any, res: Response) => {
     try {
-        const notes = await Note.find({ createdBy: req.user.id }).sort({ updatedAt: -1 });
-        res.status(200).json({ success: true, notes });
+        // Paginazione classica: page e limit dalla query string
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        // Conta tutte le note dell'utente
+        const total = await Note.countDocuments({ createdBy: req.user.id });
+
+        // Prendi solo le note richieste
+        const notes = await Note.find({ createdBy: req.user.id })
+            .sort({ updatedAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        // Flag se ci sono altre note
+        const hasMore = skip + notes.length < total;
+
+        res.status(200).json({ success: true, notes, hasMore, total });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: 'Error fetching notes' });

@@ -55,7 +55,7 @@ export default function AiInput(props: AiInputProps) {
       <div className="flex flex-col w-full max-w-[900px] px-4 py-0 relative pointer-events-auto">
         <motion.div
           layout
-          data-isOpen={isOpen}
+          data-isopen={isOpen}
           initial={{ borderRadius: 50, width: 50, height: 50 }}
           animate={{ height, borderRadius: radius, width: isOpen ? "100%" : 50 }}
           transition={{ duration: 0.3 }}
