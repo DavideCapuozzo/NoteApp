@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { deleteNote } from '../../store/note-slice/notesSlice';
@@ -9,7 +9,7 @@ import {
   createNote,
 } from "../../store/note-slice/notesSlice";
 import NoteMenu from "./menu";
-import NoteInput from "./input";
+import NoteInput, { NoteInputHandle } from "./input";
 import AiInput from "./ai-input";
 import { toast } from 'sonner'
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ export default function LayoutNote() {
   const [aiInputHeight, setAiInputHeight] = useState(150);
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const noteInputRef = useRef<NoteInputHandle>(null);
 
   const { currentNote, loading } = useAppSelector((state) => state.notes);
   const [title, setTitle] = useState(currentNote?.title || "");
@@ -77,6 +78,14 @@ export default function LayoutNote() {
     }
   };
 
+  // Gestisce l'upload del testo dall'AI alla nota nella posizione del cursore
+  const handleUploadToNote = (text: string) => {
+    if (text && noteInputRef.current) {
+      noteInputRef.current.insertTextAtCursor(text);
+      toast.success('Testo inserito nella posizione del cursore');
+    }
+  };
+
   if (loading) return <div>Caricamento...</div>;
 
   return (
@@ -89,6 +98,7 @@ export default function LayoutNote() {
       />
       {/* Passiamo la nota caricata (o undefined) a NoteInput */}
       <NoteInput
+        ref={noteInputRef}
         aiInputHeight={aiInputHeight}
         note={currentNote || undefined}
         title={title}
@@ -96,7 +106,10 @@ export default function LayoutNote() {
         content={content}
         setContent={setContent}
       />
-      <AiInput onHeightChange={setAiInputHeight} />
+      <AiInput 
+        onHeightChange={setAiInputHeight} 
+        onUploadToNote={handleUploadToNote}
+      />
     </div>
   );
 }

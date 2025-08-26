@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import { useAppDispatch } from "../../hooks";
 import { createNote, updateNote } from "../../store/note-slice/notesSlice";
 
@@ -11,7 +11,11 @@ type NoteInputProps = {
     setContent: (c: string) => void;
 };
 
-export default function NoteInput({ aiInputHeight, note, title, setTitle, content, setContent }: NoteInputProps) {
+export type NoteInputHandle = {
+    insertTextAtCursor: (text: string) => void;
+};
+
+const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, note, title, setTitle, content, setContent }, ref) => {
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const dispatch = useAppDispatch();
@@ -40,6 +44,63 @@ export default function NoteInput({ aiInputHeight, note, title, setTitle, conten
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         adjustHeight(e.currentTarget);
     };
+
+    // Funzione per inserire testo nella posizione del cursore
+    const insertTextAtCursor = (text: string) => {
+        const activeElement = document.activeElement;
+        let targetTextArea: HTMLTextAreaElement | null = null;
+        let setValue: (value: string) => void = setContent;
+
+        // Determina quale textarea è attiva
+        if (activeElement === titleRef.current) {
+            targetTextArea = titleRef.current;
+            setValue = setTitle;
+        } else if (activeElement === contentRef.current || !activeElement) {
+            targetTextArea = contentRef.current;
+            setValue = setContent;
+        } else {
+            // Se nessuna textarea è focusata, usa quella del contenuto
+            targetTextArea = contentRef.current;
+            setValue = setContent;
+        }
+
+        if (targetTextArea) {
+            const cursorPosition = targetTextArea.selectionStart;
+            const currentValue = targetTextArea.value;
+            const newValue = 
+                currentValue.slice(0, cursorPosition) + 
+                text + 
+                currentValue.slice(targetTextArea.selectionEnd);
+            
+            setValue(newValue);
+            
+            // Ripristina la posizione del cursore dopo l'inserimento
+            setTimeout(() => {
+                if (targetTextArea) {
+                    targetTextArea.focus();
+                    targetTextArea.setSelectionRange(
+                        cursorPosition + text.length, 
+                        cursorPosition + text.length
+                    );
+                    adjustHeight(targetTextArea);
+                    
+                    // Breve highlight del testo inserito per feedback visivo
+                    targetTextArea.setSelectionRange(cursorPosition, cursorPosition + text.length);
+                    setTimeout(() => {
+                        targetTextArea.setSelectionRange(
+                            cursorPosition + text.length, 
+                            cursorPosition + text.length
+                        );
+                    }, 500);
+                }
+            }, 0);
+        }
+    };
+
+    // Espone la funzione al componente padre tramite ref
+    useImperativeHandle(ref, () => ({
+        insertTextAtCursor
+    }));
 
     const handleSave = (e: React.FormEvent) => {
         e.preventDefault();
@@ -90,4 +151,8 @@ export default function NoteInput({ aiInputHeight, note, title, setTitle, conten
             </div>
         </form>
     );
-}
+});
+
+NoteInput.displayName = 'NoteInput';
+
+export default NoteInput;

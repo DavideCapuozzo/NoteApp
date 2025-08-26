@@ -205,3 +205,12 @@ button:focus-visible {
   justify-content: left;
   padding-left: 5px;
 }
+
+::selection {
+  background: #ffcc00; /* Colore di sfondo quando selezioni */
+  color: #000; /* Colore del testo selezionato */
+}
+
+input, textarea {
+  caret-color: #ffcc00; /* Cambia il colore del cursore */
+}
