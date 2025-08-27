@@ -15,12 +15,28 @@ const UserSchema = new mongoose.Schema ({
     },
     password:{
         type : String,
-        require : true,
+        require : false, // Non obbligatorio per utenti Google
+    },
+    googleId: {
+        type: String,
+        sparse: true, // Permette valori null/undefined
+        unique: true
+    },
+    avatar: {
+        type: String,
+        default: null
+    },
+    authProvider: {
+        type: String,
+        enum: ['local', 'google'],
+        default: 'local'
     },
     role:{
         type: String,
         default: 'user'
     }
+}, {
+    timestamps: true
 })
 
 const User = mongoose.model('User', UserSchema);

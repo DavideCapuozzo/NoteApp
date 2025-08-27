@@ -32,6 +32,10 @@ export function LoginForm({
     console.log("Form Data:", formData)
   }
 
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:5000/api/auth/google';
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Form Data:", formData)
@@ -96,14 +100,13 @@ export function LoginForm({
             Or continue with
           </span>
         </div>
-        <Button /* variant="loginGoogle" */ className="w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3">
-            <path d="M533.5 278.4c0-17.4-1.6-34.1-4.6-50.4H272v95.3h147.3c-6.4 34.1-25.4 62.9-54.3 82.2v68.3h87.7c51.3-47.3 80.8-117.1 80.8-195.4z" fill="currentColor" />
-            <path d="M272 544.3c73.5 0 135.2-24.3 180.2-66.1l-87.7-68.3c-24.3 16.3-55.3 25.9-92.5 25.9-71 0-131.2-47.9-152.8-112.2H29v70.4c45.2 89.3 137.9 150.3 243 150.3z" fill="currentColor" />
-            <path d="M119.2 323.6c-10.6-31.6-10.6-65.7 0-97.3V156H29c-38.5 77-38.5 168.7 0 245.7l90.2-70.4z" fill="currentColor" />
-            <path d="M272 107.7c39.9 0 75.6 13.7 103.7 40.8l77.8-77.8C407.1 24.2 345.4 0 272 0 166.9 0 74.2 60.9 29 150.3l90.2 70.4C140.8 155.6 201 107.7 272 107.7z" fill="currentColor" />
+        <Button /* variant="loginGoogle" */ className="w-full" type="button" onClick={handleGoogleLogin}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" className="mr-2 h-5 w-5">
+            <path d="M533.5 278.4c0-17.4-1.6-34.1-4.6-50.4H272v95.3h147.3c-6.4 34.1-25.4 62.9-54.3 82.2v68.3h87.7c51.3-47.3 80.8-117.1 80.8-195.4z" fill="#4285f4" />
+            <path d="M272 544.3c73.5 0 135.2-24.3 180.2-66.1l-87.7-68.3c-24.3 16.3-55.3 25.9-92.5 25.9-71 0-131.2-47.9-152.8-112.2H29v70.4c45.2 89.3 137.9 150.3 243 150.3z" fill="#34a853" />
+            <path d="M119.2 323.6c-10.6-31.6-10.6-65.7 0-97.3V156H29c-38.5 77-38.5 168.7 0 245.7l90.2-70.4z" fill="#fbbc05" />
+            <path d="M272 107.7c39.9 0 75.6 13.7 103.7 40.8l77.8-77.8C407.1 24.2 345.4 0 272 0 166.9 0 74.2 60.9 29 150.3l90.2 70.4C140.8 155.6 201 107.7 272 107.7z" fill="#ea4335" />
           </svg>
-
           Login with Google
         </Button>
       </div>

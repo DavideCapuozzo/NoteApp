@@ -1,7 +1,8 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import AuthLogin from './pages/auth/Login';
 import AuthRegistration from './pages/auth/Register';
+import GoogleCallback from './pages/auth/GoogleCallback';
 import AuthLayout from './components/auth-component/layout';
 import LayoutDashboard from './components/dashboard-component/layout-dashboard';
 import NotFound from './pages/not-found';
@@ -27,6 +28,9 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+        {/* Redirect principale a /auth */}
+        <Route path="/" element={<Navigate to="/auth/login" replace />} />
+
         {/* Auth Routes */}
         <Route
           path="/auth"
@@ -39,6 +43,9 @@ function App() {
           <Route path="login" element={<AuthLogin />} />
           <Route path="registration" element={<AuthRegistration />} />
         </Route>
+
+        {/* Google OAuth Callback */}
+        <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
         {/* Dashboard */}
         <Route

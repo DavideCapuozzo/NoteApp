@@ -18,7 +18,7 @@ export default function AiInput(props: AiInputProps) {
   const messagesRef = useRef<HTMLDivElement>(null);
   const minTextarea = 32; // min altezza textarea
   const iconsHeight = 56; // icone + padding
-  const extraPadding = 32;
+  const extraPadding = 32; // Padding base, i margini dinamici vengono aggiunti in calculateTotalHeight
   const minParentHeight = minTextarea + iconsHeight + extraPadding;
   const maxMessagesHeight = 400; // Altezza massima per l'area messaggi
 
@@ -36,11 +36,16 @@ export default function AiInput(props: AiInputProps) {
     if (!isOpen) return 50;
 
     let totalHeight = minParentHeight;
+    let isMessageAreaFull = false;
 
     // Aggiungi altezza dell'area messaggi se ci sono messaggi
     if (messages.length > 0 && messagesRef.current) {
-      const messagesHeight = Math.min(messagesRef.current.scrollHeight + 16, maxMessagesHeight); // +16 per margin
-      totalHeight += messagesHeight;
+      const actualMessagesHeight = messagesRef.current.scrollHeight;
+      const usedMessagesHeight = Math.min(actualMessagesHeight + 16, maxMessagesHeight); // +16 per margin
+      totalHeight += usedMessagesHeight;
+      
+      // Determina se l'area messaggi è piena (ha raggiunto il limite e ha bisogno di scroll)
+      isMessageAreaFull = actualMessagesHeight > maxMessagesHeight;
     }
 
     // Aggiungi altezza dell'area errore se presente
@@ -53,6 +58,9 @@ export default function AiInput(props: AiInputProps) {
       const textareaHeight = Math.max(minTextarea, Math.min(textareaRef.current.scrollHeight, 160));
       totalHeight = totalHeight - minTextarea + textareaHeight;
     }
+
+    // Aggiungi margine fisso per le icone
+    totalHeight += isMessageAreaFull ? 20 : 10; // 20px quando è piena, 10px quando non è piena
 
     return totalHeight;
   };
@@ -79,6 +87,22 @@ export default function AiInput(props: AiInputProps) {
       setRadius(newHeight > 100 ? 20 : 50);
     }
   }, [messages, error, isLoading, isOpen]);
+
+  // Effetto per auto-scroll quando arriva una nuova risposta AI
+  useLayoutEffect(() => {
+    if (messagesRef.current && messages.length > 0) {
+      // Controlla se l'ultimo messaggio è dell'AI
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.role === 'assistant') {
+        // Scroll verso il fondo con un piccolo ritardo per assicurarsi che il DOM sia aggiornato
+        setTimeout(() => {
+          if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+          }
+        }, 100);
+      }
+    }
+  }, [messages]);
 
   useLayoutEffect(() => {
     if (isOpen && textareaRef.current) {
@@ -108,6 +132,13 @@ export default function AiInput(props: AiInputProps) {
         textareaRef.current.value = '';
         adjustHeight(textareaRef.current);
       }
+
+      // Scroll verso il fondo dopo aver inviato il messaggio utente
+      setTimeout(() => {
+        if (messagesRef.current) {
+          messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+      }, 50);
 
       // Invia il messaggio - ora il contesto viene costruito dalla cronologia dei messaggi
       await sendMessage(userMessage);
@@ -181,7 +212,7 @@ export default function AiInput(props: AiInputProps) {
           )}
 
           {isOpen && (
-            <div className="w-full flex flex-col gap-2 px-2 py-4">
+            <div className="w-full flex flex-col gap-2 px-2 pt-4 pb-2">
               {/* Area messaggi chat */}
               {messages.length > 0 && (
                 <div 
@@ -252,6 +283,9 @@ export default function AiInput(props: AiInputProps) {
                 layout
                 transition={{ duration: 0.3 }}
                 className="w-full flex flex-row justify-between items-center pt-2 z-10"
+                style={{ 
+                  marginBottom: messagesRef.current && messagesRef.current.scrollHeight > maxMessagesHeight ? '20px' : '10px'
+                }}
               >
                 <div className="flex items-center gap-2">
                   <button

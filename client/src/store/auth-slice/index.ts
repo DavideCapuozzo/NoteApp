@@ -1,33 +1,49 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = {
+interface User {
+    _id: string;
+    username: string;
+    email: string;
+    avatar?: string;
+    authProvider?: string;
+}
+
+interface AuthState {
+    isAuthenticated: boolean;
+    isLoading: boolean;
+    user: User | null;
+}
+
+interface LoginFormData {
+    email: string;
+    password: string;
+}
+
+interface RegisterFormData {
+    username: string;
+    email: string;
+    password: string;
+}
+
+const initialState: AuthState = {
     isAuthenticated: false,
     isLoading: true,
     user: null
 }
 
 export const registerUser = createAsyncThunk("/auth/registration",
-    async(formData) => {
-        //in quanto ho indicato nel mio server>server.js la porta 5000 e il resto del percorso e' 
-        // quello inserito sempre nello stesso file che mi permette di accedere alle routes quindi 
-        // andro a completare il mio link con register che 'e la route 
-        // che mi permette di accedere al controller 
+    async(formData: RegisterFormData) => {
         const response = await axios.post(`http://localhost:5000/api/auth/registration`, formData, {
             withCredentials: true
         });
 
         return response.data;
     }
-
 )
 
 export const loginUser = createAsyncThunk("/auth/login",
-    async(formData) => {
-        //in quanto ho indicato nel mio server>server.js la porta 5000 e il resto del percorso e' 
-        // quello inserito sempre nello stesso file che mi permette di accedere alle routes quindi 
-        // andro a completare il mio link con register che 'e la route 
-        // che mi permette di accedere al controller 
+    async(formData: LoginFormData) => {
         const response = await axios.post(`http://localhost:5000/api/auth/login`, formData, {
             withCredentials: true
         });
@@ -75,7 +91,11 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUser: (state, action) => {},
+        setUser: (state, action: PayloadAction<{isAuthenticated: boolean, user: User}>) => {
+            state.isAuthenticated = action.payload.isAuthenticated;
+            state.user = action.payload.user;
+            state.isLoading = false;
+        },
         resetAuth: (state) => {
             state.isAuthenticated = false;
             state.isLoading = false;
