@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -7,8 +5,9 @@ import session from 'express-session';
 import authRouter from './routes/auth/auth-routes';
 import noteRouter from './routes/note/note-routes';
 import mongoose from 'mongoose';
+require('dotenv').config();
 
-// Importa la configurazione di Passport (dopo aver caricato dotenv)
+// Importa la configurazione di Passport
 require('./config/passport');
 
 // create a database connection'

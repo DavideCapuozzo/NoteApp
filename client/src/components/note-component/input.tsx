@@ -125,7 +125,7 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     spellCheck={false}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="italic outline-none font-bold mb-6 w-full overflow-hidden hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words text-[30px]"
+                    className="italic outline-none font-bold mb-6 w-full overflow-hidden hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words text-[30px] font-heading"
                     placeholder="Titolo della nota"
                     rows={1}
                     onInput={handleInput}
@@ -138,7 +138,7 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={1}
-                    className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words hyphens-auto text-[25px]"
+                    className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words hyphens-auto text-[25px] font-body"
                     placeholder="Scrivi il contenuto della nota qui..."
                     onInput={handleInput}
                     style={{

@@ -31,7 +31,7 @@ const NotesList = ({ notes }: { notes: any[] }) => {
 
     return (
         <div className="w-full justify-center">
-            <h1 className="text-center scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-20">Notes</h1>
+            <h1 className="text-center lg:text-5xl mb-20">Note.txt</h1>
             <div className="flex flex-col w-full max-w-[900px] mx-auto px-4 py-[0px] text-left">
                 <ul>
                     {notes.map((note, idx) => {

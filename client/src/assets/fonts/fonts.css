@@ -1,0 +1,81 @@
+/* General Sans Font Family */
+@font-face {
+  font-family: 'General Sans';
+  src: url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Regular.woff2') format('woff2'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Regular.woff') format('woff'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.woff2') format('woff2'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.woff') format('woff'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Semibold.woff2') format('woff2'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Semibold.woff') format('woff'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Bold.woff2') format('woff2'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Bold.woff') format('woff'),
+       url('./GeneralSans_Complete/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Quicksand Font Family */
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Regular.woff2') format('woff2'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Regular.woff') format('woff'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Medium.woff2') format('woff2'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Medium.woff') format('woff'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-SemiBold.woff2') format('woff2'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-SemiBold.woff') format('woff'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Bold.woff2') format('woff2'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Bold.woff') format('woff'),
+       url('./Quicksand_Complete/Quicksand_Complete/Fonts/WEB/fonts/Quicksand-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

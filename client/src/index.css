@@ -13,6 +13,10 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Font families */
+    --font-heading: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-body: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 
   .dark {
@@ -24,6 +28,10 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Font families (same for dark mode) */
+    --font-heading: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-body: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 }
 
@@ -213,4 +221,73 @@ button:focus-visible {
 
 input, textarea {
   caret-color: #ffcc00; /* Cambia il colore del cursore */
+}
+
+/* Font personalizzati */
+@layer base {
+  /* Headings con General Sans - aumentiamo la specificità */
+  h1, h2, h3, h4, h5, h6,
+  .font-heading {
+    font-family: var(--font-heading) !important;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 600 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 500 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    font-weight: 500 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  h6 {
+    font-size: 1.125rem;
+    font-weight: 500 !important;
+    font-family: var(--font-heading) !important;
+  }
+
+  /* Paragrafi con Quicksand */
+  p {
+    font-family: var(--font-body) !important;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  /* Body di default con Quicksand */
+  body {
+    font-family: var(--font-body) !important;
+  }
+
+  /* Utility classes per i font */
+  .font-heading {
+    font-family: var(--font-heading) !important;
+  }
+
+  .font-body {
+    font-family: var(--font-body) !important;
+  }
 }
