@@ -16,6 +16,8 @@
     "@types/express": "^5.0.1",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.13.14",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.16",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },

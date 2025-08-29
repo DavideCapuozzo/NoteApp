@@ -2,8 +2,8 @@ import { decode } from "punycode";
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../../models/User');
-const passport = require('../../config/passport');
+import User from '../../models/User';
+import passport from '../../config/passport';
 
 // register
 export const registerUser = async(req:any, res:any) => {

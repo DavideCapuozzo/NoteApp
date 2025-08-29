@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -5,10 +8,7 @@ import session from 'express-session';
 import authRouter from './routes/auth/auth-routes';
 import noteRouter from './routes/note/note-routes';
 import mongoose from 'mongoose';
-require('dotenv').config();
-
-// Importa la configurazione di Passport
-require('./config/passport');
+import passport from './config/passport';
 
 // create a database connection'
 mongoose.connect('mongodb+srv://noteapp:2AkbS7kazAjQDMgL@cluster0.mzcwgzu.mongodb.net/').then(()=>console.log('MongoDB Connected')).catch((error: unknown) => console.log(error));
@@ -43,7 +43,6 @@ app.use(
 )
 
 // Inizializza Passport
-const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,8 +50,5 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth', authRouter)
 app.use('/api/notes', noteRouter);
-
-
-
 
 app.listen(PORT, ()=> console.log(`Server is now running on port ${PORT}`))
