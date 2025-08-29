@@ -74,7 +74,7 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                 </ul>
                 {/* Loader solo per la paginazione, non per il caricamento iniziale */}
                 {loading && notes.length > 0 && (
-                    <div className="text-center py-4 animate-pulse text-blue-600">Caricamento altre note...</div>
+                    <div className="text-center py-4 animate-pulse text-[#2FCCC3]">Caricamento altre note...</div>
                 )}
             </div>
         </div>

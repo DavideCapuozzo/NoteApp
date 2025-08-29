@@ -186,7 +186,7 @@ export default function AiInput(props: AiInputProps) {
           initial={{ borderRadius: 50, width: 50, height: 50 }}
           animate={{ height, borderRadius: radius, width: isOpen ? "100%" : 50 }}
           transition={{ duration: 0.3 }}
-          className="parent border-[#213547] border-[1px] w-full flex items-start transition-all duration-300 overflow-hidden relative bg-[#fdfdfc]"
+          className="parent border-[#000000] border-[1px] w-full flex items-start transition-all duration-300 overflow-hidden relative bg-[#fdfdfc]"
           style={{
             height: height,
             minHeight: isOpen ? height : 50,
@@ -200,7 +200,7 @@ export default function AiInput(props: AiInputProps) {
               layout
               transition={{ duration: 0.3 }}
               onClick={() => setIsOpen(true)}
-              className="bg-[#213547] p-3 rounded-[20px] flex items-center justify-center h-[40px] w-[40px] cursor-pointer"
+              className="bg-[#000000] p-3 rounded-[20px] flex items-center justify-center h-[40px] w-[40px] cursor-pointer"
               style={{
                 position: "absolute",
                 bottom: 5,
@@ -231,7 +231,7 @@ export default function AiInput(props: AiInputProps) {
                       }`}
                     >
                       <div className={`font-semibold text-xs mb-1 ${
-                        msg.role === 'user' ? 'text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300'
+                        msg.role === 'user' ? 'text-[#2FCCC3] dark:text-blue-300' : 'text-gray-700 dark:text-[#000000]'
                       }`}>
                         {msg.role === 'user' ? 'Tu' : 'AI'}
                       </div>
@@ -240,7 +240,7 @@ export default function AiInput(props: AiInputProps) {
                   ))}
                   {isLoading && (
                     <div className="bg-gray-100 dark:bg-gray-800 mr-8 p-2 rounded-lg text-sm">
-                      <div className="font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">AI</div>
+                      <div className="font-semibold text-xs mb-1 text-gray-700 dark:text-[#000000]">AI</div>
                       <div className="flex items-center space-x-1">
                         <div className="animate-pulse">Sto pensando...</div>
                       </div>
@@ -290,7 +290,7 @@ export default function AiInput(props: AiInputProps) {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    className="bg-[#213547] p-3 rounded-[20px] flex items-center justify-center h-[40px] w-[40px]"
+                    className="bg-[#000000] p-3 rounded-[20px] flex items-center justify-center h-[40px] w-[40px]"
                     aria-label="Chiudi"
                     onClick={() => {
                       setIsOpen(false);
@@ -317,8 +317,8 @@ export default function AiInput(props: AiInputProps) {
                     type="button"
                     className={`transition-colors ${
                       selectedText || messages.some(m => m.role === 'assistant')
-                        ? 'text-green-500 hover:text-green-700'
-                        : 'text-gray-300'
+                        ? 'text-[#55EAE2] hover:text-[#2FCCC3]'
+                        : 'text-[#000000]'
                     }`}
                     style={{ fontSize: 20 }}
                     tabIndex={-1}
@@ -333,8 +333,8 @@ export default function AiInput(props: AiInputProps) {
                     type="button"
                     className={`transition-colors ${
                       message.trim() && !isLoading
-                        ? 'text-blue-500 hover:text-blue-700'
-                        : 'text-gray-300'
+                        ? 'text-[#000000] hover:text-[#2FCCC3]'
+                        : 'text-[#000000]'
                     }`}
                     style={{ fontSize: 22 }}
                     aria-label="Send"

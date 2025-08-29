@@ -101,11 +101,11 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #000000;
     background-color: #ffffff;
   }
   a:hover {
-    color: #1bcfaf;
+    color: #2FCCC3;
   }
   /* button {
     background-color: #f9f9f9;
@@ -215,12 +215,12 @@ button:focus-visible {
 }
 
 ::selection {
-  background: #ffcc00; /* Colore di sfondo quando selezioni */
+  background: #2FCCC3; /* Colore di sfondo quando selezioni */
   color: #000; /* Colore del testo selezionato */
 }
 
 input, textarea {
-  caret-color: #ffcc00; /* Cambia il colore del cursore */
+  caret-color: #2FCCC3; /* Cambia il colore del cursore */
 }
 
 /* Font personalizzati */

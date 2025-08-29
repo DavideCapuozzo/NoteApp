@@ -78,16 +78,16 @@ export default function NoteMenu({ onSave, onDelete, noteTitle, noteContent }: {
       <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[90px]">
         {/* Icone a sinistra */}
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Chiudi" onClick={handleClose}>
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Chiudi" onClick={handleClose}>
             <FaTimes className="h-6 w-6" />
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Salva" onClick={onSave}>
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Salva" onClick={onSave}>
             <Save className="h-6 w-6" strokeWidth={2} />
           </button>
           <button className="flex items-center gap-2 hover:text-red-600 transition cursor-pointer" title="Elimina" onClick={onDelete}>
             <Trash2 className="h-6 w-6" strokeWidth={2} />
           </button>
-          <button className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer" title="Download" onClick={handleDownload}>
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Download" onClick={handleDownload}>
             <Download className="h-6 w-6" strokeWidth={2} />
           </button>
         </div>
