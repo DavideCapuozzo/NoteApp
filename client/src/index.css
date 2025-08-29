@@ -211,7 +211,7 @@ button:focus-visible {
 .parent[data-isOpen="true"] {
   width: 100%;
   justify-content: left;
-  padding-left: 5px;
+  /* padding-left: 5px; */
 }
 
 ::selection {

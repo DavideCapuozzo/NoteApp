@@ -203,8 +203,8 @@ export default function AiInput(props: AiInputProps) {
               className="bg-[#000000] p-3 rounded-[20px] flex items-center justify-center h-[40px] w-[40px] cursor-pointer"
               style={{
                 position: "absolute",
-                bottom: 5,
-                left: 5,
+                bottom: 4,
+                left: 4,
               }}
             >
               <BrainCircuit color="white" size={20} />
@@ -282,7 +282,7 @@ export default function AiInput(props: AiInputProps) {
               <motion.div
                 layout
                 transition={{ duration: 0.3 }}
-                className="w-full flex flex-row justify-between items-center pt-2 z-10"
+                className="w-full flex flex-row justify-between items-center pt-2 z-10 px-3.5"
                 style={{ 
                   marginBottom: messagesRef.current && messagesRef.current.scrollHeight > maxMessagesHeight ? '20px' : '10px'
                 }}
