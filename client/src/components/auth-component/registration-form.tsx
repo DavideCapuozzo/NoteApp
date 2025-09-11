@@ -28,7 +28,7 @@ export function RegistrationForm({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
-    console.log(formData)
+    /* console.log(formData) */
   };
 
   const handleGoogleLogin = () => {

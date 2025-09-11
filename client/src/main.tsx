@@ -6,6 +6,10 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store/store'
 import { Toaster } from 'sonner'
+import { initializeAxiosInterceptors } from './lib/axios'
+
+// Inizializza gli interceptors axios con il dispatch dello store
+initializeAxiosInterceptors(store.dispatch);
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>

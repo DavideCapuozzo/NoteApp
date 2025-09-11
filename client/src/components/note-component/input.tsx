@@ -48,15 +48,23 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
         adjustHeight(contentRef.current);
     }, [title, content]);
 
+    // Forza il re-render quando cambia l'altezza dell'AI input
+    useEffect(() => {
+        /* console.log('AI Input Height changed to:', aiInputHeight); */
+    }, [aiInputHeight]);
+
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         // Salva la posizione del cursore prima del ridimensionamento
         const cursorPosition = e.currentTarget.selectionStart;
+        const targetElement = e.currentTarget; // Salva il riferimento
         
-        adjustHeight(e.currentTarget);
+        adjustHeight(targetElement);
         
         // Ripristina la posizione del cursore senza causare scroll
         setTimeout(() => {
-            e.currentTarget.setSelectionRange(cursorPosition, cursorPosition);
+            if (targetElement) {
+                targetElement.setSelectionRange(cursorPosition, cursorPosition);
+            }
         }, 0);
     };
 
@@ -157,11 +165,11 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     placeholder="Scrivi il contenuto della nota qui..."
                     onInput={handleInput}
                     style={{
-                        minHeight: "200px", // Altezza minima per iniziare
+                        minHeight: "500px", // Altezza minima per iniziare
                         overflow: "visible", // Espansione naturale, nessun scroll interno
                         overflowWrap: "break-word",
                         textAlign: "start",
-                        marginBottom: `${aiInputHeight + 30}px`, // Margin sempre dinamico basato sull'altezza della chat
+                        marginBottom: `${aiInputHeight + 80}px`, // Margin sempre dinamico basato sull'altezza della chat
                         resize: "none"
                     }}
                 />

@@ -29,7 +29,7 @@ export function LoginForm({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
     setFormData(prev => ({ ...prev, [id]: value }))
-    console.log("Form Data:", formData)
+    /* console.log("Form Data:", formData) */
   }
 
   const handleGoogleLogin = () => {
@@ -38,7 +38,7 @@ export function LoginForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form Data:", formData)
+    /* console.log("Form Data:", formData) */
 
     dispatch(loginUser(formData)).then((data) => {
       if(data?.payload?.success){

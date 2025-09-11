@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../../lib/axios";
 
 interface User {
     _id: string;
@@ -87,6 +87,16 @@ export const logoutUser = createAsyncThunk("/auth/logout",
     }
 )
 
+export const refreshToken = createAsyncThunk("/auth/refresh",
+    async() => {
+        const response = await axios.post(`http://localhost:5000/api/auth/refresh`, {}, {
+            withCredentials: true
+        });
+
+        return response.data;
+    }
+)
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -146,6 +156,25 @@ const authSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state, action) => {
                 console.log(action);
+                state.isLoading = false;
+                state.user = null;
+                state.isAuthenticated = false;
+            })
+            .addCase(refreshToken.pending, (state) => {
+                // Non impostiamo isLoading a true per il refresh perché dovrebbe essere trasparente
+            })
+            .addCase(refreshToken.fulfilled, (state, action) => {
+                // Il token è stato aggiornato automaticamente nel cookie
+                // Non abbiamo bisogno di aggiornare lo stato se è già autenticato
+                if (action.payload.success) {
+                    state.isAuthenticated = true;
+                    if (action.payload.user) {
+                        state.user = action.payload.user;
+                    }
+                }
+            })
+            .addCase(refreshToken.rejected, (state, action) => {
+                // Se il refresh fallisce, l'utente deve fare login di nuovo
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthenticated = false;

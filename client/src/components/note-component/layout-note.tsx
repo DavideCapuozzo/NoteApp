@@ -106,10 +106,13 @@ export default function LayoutNote() {
         content={content}
         setContent={setContent}
       />
-      <AiInput 
-        onHeightChange={setAiInputHeight}
-        onUploadToNote={handleUploadToNote}
-      />
+      <div className="relative">
+        <AiInput 
+          onHeightChange={setAiInputHeight}
+          onUploadToNote={handleUploadToNote}
+        />
+      </div>
+      
     </div>
   );
 }
