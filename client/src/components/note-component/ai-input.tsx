@@ -25,9 +25,11 @@ export default function AiInput(props: AiInputProps) {
   // Hook per gestire la chat con Gemini
   const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat();
 
-  // Aggiorna il parent ogni volta che height cambia
+  // Comunica sempre l'altezza al parent, sia quando aperta che chiusa
   React.useEffect(() => {
-    if (props.onHeightChange) props.onHeightChange(height);
+    if (props.onHeightChange) {
+      props.onHeightChange(height);
+    }
   }, [height]);
 
   

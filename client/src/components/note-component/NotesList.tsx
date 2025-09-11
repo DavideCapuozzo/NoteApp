@@ -39,7 +39,7 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                             return (
                                 <li key={note._id} ref={lastNoteRef}>
                                     <Link to={`/note/${note._id}`}>
-                                        <div className='flex justify-between border-b pb-4 mb-5'>
+                                        <div className='flex justify-between border-b pb-4 mb-5 border-[#e5e5e5]'>
                                             <h2 className='scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0'>{truncateTitle(note.title)}</h2>
                                             <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
                                                 {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {
@@ -56,7 +56,7 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                             return (
                                 <li key={note._id}>
                                     <Link to={`/note/${note._id}`}>
-                                        <div className='flex justify-between border-b pb-4 mb-5'>
+                                        <div className='flex justify-between border-b pb-4 mb-5 border-[#e5e5e5]'>
                                             <h2 className='scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0'>{truncateTitle(note.title)}</h2>
                                             <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
                                                 {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {

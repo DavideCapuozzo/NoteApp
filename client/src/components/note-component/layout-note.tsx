@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function LayoutNote() {
   const navigate = useNavigate();
-  const [aiInputHeight, setAiInputHeight] = useState(150);
+  const [aiInputHeight, setAiInputHeight] = useState(50); // Altezza iniziale della chat chiusa
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const noteInputRef = useRef<NoteInputHandle>(null);
@@ -107,7 +107,7 @@ export default function LayoutNote() {
         setContent={setContent}
       />
       <AiInput 
-        onHeightChange={setAiInputHeight} 
+        onHeightChange={setAiInputHeight}
         onUploadToNote={handleUploadToNote}
       />
     </div>

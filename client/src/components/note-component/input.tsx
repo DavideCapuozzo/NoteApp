@@ -30,8 +30,15 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
 
     const adjustHeight = (element: HTMLTextAreaElement | null) => {
         if (element) {
+            // Salva la posizione di scroll corrente
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
             element.style.height = "auto";
             element.style.height = `${element.scrollHeight}px`;
+            
+            // Ripristina la posizione di scroll per evitare salti automatici
+            window.scrollTo(scrollLeft, scrollTop);
         }
     };
 
@@ -42,7 +49,15 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
     }, [title, content]);
 
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        // Salva la posizione del cursore prima del ridimensionamento
+        const cursorPosition = e.currentTarget.selectionStart;
+        
         adjustHeight(e.currentTarget);
+        
+        // Ripristina la posizione del cursore senza causare scroll
+        setTimeout(() => {
+            e.currentTarget.setSelectionRange(cursorPosition, cursorPosition);
+        }, 0);
     };
 
     // Funzione per inserire testo nella posizione del cursore
@@ -142,10 +157,12 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     placeholder="Scrivi il contenuto della nota qui..."
                     onInput={handleInput}
                     style={{
-                        overflow: "hidden",
+                        minHeight: "200px", // Altezza minima per iniziare
+                        overflow: "visible", // Espansione naturale, nessun scroll interno
                         overflowWrap: "break-word",
                         textAlign: "start",
-                        marginBottom: `${aiInputHeight + 150}px`
+                        marginBottom: `${aiInputHeight + 30}px`, // Margin sempre dinamico basato sull'altezza della chat
+                        resize: "none"
                     }}
                 />
             </div>
