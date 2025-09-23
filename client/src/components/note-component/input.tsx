@@ -30,24 +30,26 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
         }
     }, [note, setTitle, setContent]);
 
-    const adjustHeight = (element: HTMLTextAreaElement | null) => {
+    const adjustHeight = (element: HTMLTextAreaElement | null, preserveViewport?: boolean) => {
         if (element) {
-            // Salva la posizione di scroll corrente
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-            
+            const oldHeight = element.style.height;
             element.style.height = "auto";
-            element.style.height = `${element.scrollHeight}px`;
+            const newHeight = element.scrollHeight;
+            element.style.height = `${newHeight}px`;
             
-            // Ripristina la posizione di scroll per evitare salti automatici
-            window.scrollTo(scrollLeft, scrollTop);
+            // Se non dobbiamo preservare il viewport, mantieni il comportamento normale
+            if (!preserveViewport) {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                window.scrollTo(scrollLeft, scrollTop);
+            }
         }
     };
 
     // Adatta altezza dei textarea inizialmente e quando cambia testo
     useEffect(() => {
-        adjustHeight(titleRef.current);
-        adjustHeight(contentRef.current);
+        adjustHeight(titleRef.current, false);
+        adjustHeight(contentRef.current, false);
     }, [title, content]);
 
     // Forza il re-render quando cambia l'altezza dell'AI input
@@ -69,7 +71,7 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
         const cursorPosition = e.currentTarget.selectionStart;
         const targetElement = e.currentTarget; // Salva il riferimento
         
-        adjustHeight(targetElement);
+        adjustHeight(targetElement, false);
         
         // Ripristina la posizione del cursore senza causare scroll
         setTimeout(() => {
@@ -115,35 +117,42 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
         }
 
         if (targetTextArea) {
+            // Salva lo stato corrente prima dell'inserimento
             const cursorPosition = targetTextArea.selectionStart;
             const currentValue = targetTextArea.value;
+            
+            // Calcola il nuovo valore
             const newValue = 
                 currentValue.slice(0, cursorPosition) + 
                 text + 
                 currentValue.slice(targetTextArea.selectionEnd);
             
+            // Salva la posizione di scroll corrente del viewport
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const currentScrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            // Aggiorna il valore
             setValue(newValue);
             
-            // Ripristina la posizione del cursore dopo l'inserimento
-            setTimeout(() => {
+            // Usa requestAnimationFrame per assicurarsi che l'aggiornamento sia completato
+            requestAnimationFrame(() => {
                 if (targetTextArea) {
+                    // Mantieni il focus e posiziona il cursore alla fine del testo inserito
                     targetTextArea.focus();
-                    targetTextArea.setSelectionRange(
-                        cursorPosition + text.length, 
-                        cursorPosition + text.length
-                    );
-                    adjustHeight(targetTextArea);
+                    const newCursorPosition = cursorPosition + text.length;
+                    targetTextArea.setSelectionRange(newCursorPosition, newCursorPosition);
                     
-                    // Breve highlight del testo inserito per feedback visivo
-                    targetTextArea.setSelectionRange(cursorPosition, cursorPosition + text.length);
-                    setTimeout(() => {
-                        targetTextArea.setSelectionRange(
-                            cursorPosition + text.length, 
-                            cursorPosition + text.length
-                        );
-                    }, 500);
+                    // Aggiusta l'altezza preservando il viewport
+                    adjustHeight(targetTextArea, true);
+                    
+                    // Ripristina esattamente la posizione di scroll precedente
+                    window.scrollTo(currentScrollLeft, currentScrollTop);
+                    
+                    // Assicurati che il cursore sia visibile nel textarea
+                    // Scorri il textarea internamente per mostrare la fine del testo
+                    targetTextArea.scrollTop = targetTextArea.scrollHeight;
                 }
-            }, 0);
+            });
         }
     };
 

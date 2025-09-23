@@ -5,10 +5,11 @@ import { fetchNotes } from '../../store/note-slice/notesSlice';
 
 const LIMIT = 10;
 
-// Funzione per troncare il titolo
-const truncateTitle = (title: string, maxLength: number = 30): string => {
-    if (title.length <= maxLength) return title;
-    return title.substring(0, maxLength) + '...';
+// Funzione per troncare il titolo con lunghezza dinamica per mobile
+const truncateTitle = (title: string, maxLength: number = 30, isMobile: boolean = false): string => {
+    const finalMaxLength = isMobile ? 20 : maxLength;
+    if (title.length <= finalMaxLength) return title;
+    return title.substring(0, finalMaxLength) + '...';
 };
 
 const NotesList = ({ notes }: { notes: any[] }) => {
@@ -39,15 +40,21 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                             return (
                                 <li key={note._id} ref={lastNoteRef}>
                                     <Link to={`/note/${note._id}`}>
-                                        <div className='flex justify-between border-b pb-4 mb-5 border-[#e5e5e5]'>
-                                            <h2 className='scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0'>{truncateTitle(note.title)}</h2>
-                                            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
-                                                {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric'
-                                                }) : ''}
-                                            </h2>
+                                        <div className='border-b pb-4 mb-5 border-[#e5e5e5]'>
+                                            {/* Layout mobile: stack vertically */}
+                                            <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
+                                                <h2 className='scroll-m-20 text-xl sm:text-3xl font-semibold tracking-tight first:mt-0 flex-1 min-w-0'>
+                                                    <span className='sm:hidden'>{truncateTitle(note.title, 30, true)}</span>
+                                                    <span className='hidden sm:inline'>{truncateTitle(note.title)}</span>
+                                                </h2>
+                                                <h2 className="scroll-m-20 text-sm sm:text-3xl font-semibold tracking-tight first:mt-0 text-gray-600 sm:text-black flex-shrink-0">
+                                                    {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric'
+                                                    }) : ''}
+                                                </h2>
+                                            </div>
                                         </div>
                                     </Link>
                                 </li>
@@ -56,15 +63,21 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                             return (
                                 <li key={note._id}>
                                     <Link to={`/note/${note._id}`}>
-                                        <div className='flex justify-between border-b pb-4 mb-5 border-[#e5e5e5]'>
-                                            <h2 className='scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0'>{truncateTitle(note.title)}</h2>
-                                            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
-                                                {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric'
-                                                }) : ''}
-                                            </h2>
+                                        <div className='border-b pb-4 mb-5 border-[#e5e5e5]'>
+                                            {/* Layout mobile: stack vertically */}
+                                            <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
+                                                <h2 className='scroll-m-20 text-xl sm:text-3xl font-semibold tracking-tight first:mt-0 flex-1 min-w-0'>
+                                                    <span className='sm:hidden'>{truncateTitle(note.title, 30, true)}</span>
+                                                    <span className='hidden sm:inline'>{truncateTitle(note.title)}</span>
+                                                </h2>
+                                                <h2 className="scroll-m-20 text-sm sm:text-3xl font-semibold tracking-tight first:mt-0 text-gray-600 sm:text-black flex-shrink-0">
+                                                    {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric'
+                                                    }) : ''}
+                                                </h2>
+                                            </div>
                                         </div>
                                     </Link>
                                 </li>

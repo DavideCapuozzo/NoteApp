@@ -33,7 +33,7 @@ export function Menu({ ...props }: React.ComponentProps<'div'>) {
 
   return (
     <header className="w-full flex justify-center">
-      <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[90px]">
+      <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[40px] md:py-[90px] lg:py-[90px]">
         {/* Icona Matita */}
         <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
           <Pencil className="h-6 w-6" onClick={() => navigate('/note')}/>
