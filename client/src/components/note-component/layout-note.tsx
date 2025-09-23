@@ -13,12 +13,16 @@ import NoteInput, { NoteInputHandle } from "./input";
 import AiInput from "./ai-input";
 import { toast } from 'sonner'
 import { useNavigate } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
 
 
 export default function LayoutNote() {
   const navigate = useNavigate();
   const [aiInputHeight, setAiInputHeight] = useState(50); // Altezza iniziale della chat chiusa
   const [isTyping, setIsTyping] = useState(false); // Stato per tracciare se l'utente sta digitando
+  const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const noteInputRef = useRef<NoteInputHandle>(null);
@@ -57,16 +61,27 @@ export default function LayoutNote() {
     } else {
       dispatch(createNote({ title, content }))
         .then((result:any) => {
-          setTitle("");
-          setContent("");
-          toast.dismiss();
-          toast.success('Nota creata con successo');
-          // Naviga direttamente alla nota appena creata
-          if(result?.payload?._id){
-            navigate(`/note/${result.payload._id}`);
-          } else {
-            navigate('/myuser');
+          if (result.type === 'notes/createNote/fulfilled') {
+            setTitle("");
+            setContent("");
+            toast.dismiss();
+            toast.success('Nota creata con successo');
+            // Naviga direttamente alla nota appena creata
+            if(result?.payload?._id){
+              navigate(`/note/${result.payload._id}`);
+            } else {
+              navigate('/myuser');
+            }
+          } else if (result.type === 'notes/createNote/rejected') {
+            toast.dismiss();
+            setErrorMessage(result.payload || 'Errore durante la creazione della nota');
+            setErrorDialogOpen(true);
           }
+        })
+        .catch((error: any) => {
+          toast.dismiss();
+          setErrorMessage('Errore durante la creazione della nota');
+          setErrorDialogOpen(true);
         });
     }
   };
@@ -120,6 +135,25 @@ export default function LayoutNote() {
           isVisible={!isTyping}
         />
       </div>
+      
+      {/* Dialog per gli errori */}
+      <Dialog open={errorDialogOpen} onOpenChange={setErrorDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Errore</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col space-y-4">
+            <p className="text-sm text-gray-600">
+              {errorMessage}
+            </p>
+            <div className="flex justify-end">
+              <Button onClick={() => setErrorDialogOpen(false)}>
+                OK
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       
     </div>
   );
