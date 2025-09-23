@@ -7,6 +7,7 @@ import { useGeminiChat } from '../../hooks/useGeminiChat';
 type AiInputProps = { 
   onHeightChange?: (h: number) => void;
   onUploadToNote?: (text: string) => void;
+  isVisible?: boolean;
 };
 export default function AiInput(props: AiInputProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,9 @@ export default function AiInput(props: AiInputProps) {
 
   // Hook per gestire la chat con Gemini
   const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat();
+
+  // Determina se il componente deve essere visibile
+  const shouldBeVisible = props.isVisible !== false;
 
   // Comunica sempre l'altezza al parent, sia quando aperta che chiusa
   React.useEffect(() => {
@@ -180,7 +184,11 @@ export default function AiInput(props: AiInputProps) {
   };
 
   return (
-    <div className="fixed left-0 bottom-0 w-full z-50 flex justify-center pointer-events-none mb-5">
+    <div 
+      className={`fixed left-0 bottom-0 w-full z-50 flex justify-center pointer-events-none mb-5 transition-opacity duration-300 ${
+        shouldBeVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+    >
       <div className="flex flex-col w-full max-w-[900px] px-4 py-0 relative pointer-events-auto">
         <motion.div
           layout

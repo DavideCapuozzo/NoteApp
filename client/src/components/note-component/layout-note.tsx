@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 export default function LayoutNote() {
   const navigate = useNavigate();
   const [aiInputHeight, setAiInputHeight] = useState(50); // Altezza iniziale della chat chiusa
+  const [isTyping, setIsTyping] = useState(false); // Stato per tracciare se l'utente sta digitando
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const noteInputRef = useRef<NoteInputHandle>(null);
@@ -86,6 +87,11 @@ export default function LayoutNote() {
     }
   };
 
+  // Gestisce il cambio di stato della digitazione
+  const handleTypingChange = (typing: boolean) => {
+    setIsTyping(typing);
+  };
+
   if (loading) return <div>Caricamento...</div>;
 
   return (
@@ -105,11 +111,13 @@ export default function LayoutNote() {
         setTitle={setTitle}
         content={content}
         setContent={setContent}
+        onTypingChange={handleTypingChange}
       />
       <div className="relative">
         <AiInput 
           onHeightChange={setAiInputHeight}
           onUploadToNote={handleUploadToNote}
+          isVisible={!isTyping}
         />
       </div>
       

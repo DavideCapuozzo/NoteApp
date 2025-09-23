@@ -9,16 +9,18 @@ type NoteInputProps = {
     setTitle: (t: string) => void;
     content: string;
     setContent: (c: string) => void;
+    onTypingChange?: (isTyping: boolean) => void;
 };
 
 export type NoteInputHandle = {
     insertTextAtCursor: (text: string) => void;
 };
 
-const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, note, title, setTitle, content, setContent }, ref) => {
+const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, note, title, setTitle, content, setContent, onTypingChange }, ref) => {
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const dispatch = useAppDispatch();
+    const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Aggiorna il form se cambia la nota
     useEffect(() => {
@@ -53,6 +55,15 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
         /* console.log('AI Input Height changed to:', aiInputHeight); */
     }, [aiInputHeight]);
 
+    // Cleanup del timeout quando il componente viene smontato
+    useEffect(() => {
+        return () => {
+            if (typingTimeoutRef.current) {
+                clearTimeout(typingTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         // Salva la posizione del cursore prima del ridimensionamento
         const cursorPosition = e.currentTarget.selectionStart;
@@ -66,6 +77,22 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                 targetElement.setSelectionRange(cursorPosition, cursorPosition);
             }
         }, 0);
+
+        // Gestione dello stato di digitazione
+        if (onTypingChange) {
+            // Notifica che l'utente sta digitando
+            onTypingChange(true);
+            
+            // Cancella il timeout precedente se esiste
+            if (typingTimeoutRef.current) {
+                clearTimeout(typingTimeoutRef.current);
+            }
+            
+            // Imposta un nuovo timeout per rilevare quando l'utente smette di digitare
+            typingTimeoutRef.current = setTimeout(() => {
+                onTypingChange(false);
+            }, 1000); // Aspetta 1 secondo di inattività
+        }
     };
 
     // Funzione per inserire testo nella posizione del cursore
