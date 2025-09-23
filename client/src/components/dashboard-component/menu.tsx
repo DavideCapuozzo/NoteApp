@@ -1,6 +1,7 @@
 import * as React from "react"
-import { Pencil, LogOut, User } from "lucide-react"
+import { Pencil, LogOut, User, Upload } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +15,7 @@ import { logoutUser, resetAuth } from '../../store/auth-slice'
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 import { useNavigate } from "react-router-dom"
+import { ImportDialog } from './import-dialog'
 
 export function Menu({ ...props }: React.ComponentProps<'div'>) {
 
@@ -34,10 +36,20 @@ export function Menu({ ...props }: React.ComponentProps<'div'>) {
   return (
     <header className="w-full flex justify-center">
       <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[40px] md:py-[90px] lg:py-[90px]">
-        {/* Icona Matita */}
-        <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
-          <Pencil className="h-6 w-6" onClick={() => navigate('/note')}/>
-        </button>
+        {/* Actions */}
+        <div className="flex items-center gap-4">
+          {/* Icona Matita */}
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
+            <Pencil className="h-6 w-6" onClick={() => navigate('/note')}/>
+          </button>
+          
+          {/* Pulsante Import */}
+          <ImportDialog>
+            <Button variant="ghost" size="sm" className="hover:text-[#2FCCC3] transition">
+              <Upload className="h-5 w-5" />
+            </Button>
+          </ImportDialog>
+        </div>
 
         {/* Menu Utente */}
         <DropdownMenu>
