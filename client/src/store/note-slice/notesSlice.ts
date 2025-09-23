@@ -47,10 +47,19 @@ export const fetchNote = createAsyncThunk('notes/fetchNote', async (id: string) 
     return res.data.note;
 });
 
-export const createNote = createAsyncThunk('notes/createNote', async (note: {title:string, content:string}) => {
-    const res = await axios.post(API_BASE, note, { withCredentials: true });
-    return res.data.note;
-});
+export const createNote = createAsyncThunk(
+    'notes/createNote', 
+    async (note: {title:string, content:string}, { rejectWithValue }) => {
+        try {
+            const res = await axios.post(API_BASE, note, { withCredentials: true });
+            return res.data.note;
+        } catch (error: any) {
+            // Restituisci il messaggio di errore dal server se disponibile
+            const message = error.response?.data?.message || 'Errore durante la creazione della nota';
+            return rejectWithValue(message);
+        }
+    }
+);
 
 export const updateNote = createAsyncThunk('notes/updateNote', async ({id, note}:{id:string, note:{title:string, content:string}}) => {
     const res = await axios.put(`${API_BASE}/${id}`, note, { withCredentials: true });
@@ -113,9 +122,15 @@ const notesSlice = createSlice({
         .addCase(fetchNote.rejected, (state, action) => { state.loading = false; state.error = action.error.message || null })
 
         // CREATE NOTE
+        .addCase(createNote.pending, (state) => { state.loading = true; state.error = null })
         .addCase(createNote.fulfilled, (state, action) => {
             state.notes.unshift(action.payload);
             state.currentNote = action.payload;
+            state.loading = false;
+        })
+        .addCase(createNote.rejected, (state, action) => { 
+            state.loading = false; 
+            state.error = action.payload as string || action.error.message || null;
         })
 
         // UPDATE NOTE

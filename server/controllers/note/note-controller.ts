@@ -5,6 +5,20 @@ const Note = require ('../../models/Note');
 export const createNote = async (req: any, res: Response) => {
     try {
         const { title, content } = req.body;
+        
+        // Controlla se esiste già una nota con lo stesso titolo per questo utente
+        const existingNote = await Note.findOne({ 
+            title: title, 
+            createdBy: req.user.id 
+        });
+        
+        if (existingNote) {
+            return res.status(400).json({ 
+                success: false, 
+                message: `Esiste già una nota con il nome "${title}". Scegli un titolo diverso.` 
+            });
+        }
+        
         const newNote = new Note({
             title,
             content,

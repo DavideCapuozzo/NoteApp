@@ -1,10 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Upload, FileText, X } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { Upload, FileText, X, AlertTriangle } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createNote } from '../../store/note-slice/notesSlice';
-import type { AppDispatch } from '../../store/store';
+import type { AppDispatch, RootState } from '../../store/store';
 
 interface ImportDialogProps {
   children: React.ReactNode;
@@ -14,16 +14,29 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch<AppDispatch>();
+  const notes = useSelector((state: RootState) => state.notes.notes);
 
   const handleFileSelect = useCallback((file: File) => {
     if (file && file.type === 'text/plain') {
       setSelectedFile(file);
+      setError(null);
+      
+      // Controlla se esiste già una nota con questo nome
+      const fileName = file.name.replace(/\.txt$/i, '');
+      const existingNote = notes.find(note => 
+        note.title.toLowerCase() === fileName.toLowerCase()
+      );
+      
+      if (existingNote) {
+        setError(`Esiste già una nota con il nome "${fileName}". Scegli un file con un nome diverso.`);
+      }
     } else {
       alert('Per favore seleziona solo file .txt');
     }
-  }, []);
+  }, [notes]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -55,20 +68,38 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
   }, [handleFileSelect]);
 
   const handleImport = useCallback(async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || error) return;
 
     try {
       const content = await selectedFile.text();
       const fileName = selectedFile.name.replace(/\.txt$/i, '');
       
+      // Doppio controllo per sicurezza prima di creare la nota
+      const existingNote = notes.find(note => 
+        note.title.toLowerCase() === fileName.toLowerCase()
+      );
+      
+      if (existingNote) {
+        setError(`Esiste già una nota con il nome "${fileName}". Scegli un file con un nome diverso.`);
+        return;
+      }
+      
       // Crea la nota tramite Redux thunk (invio al server)
-      await dispatch(createNote({
+      const result = await dispatch(createNote({
         title: fileName,
         content: content,
       }));
 
-      // Reset del dialog
+      // Controlla se la creazione è fallita
+      if (createNote.rejected.match(result)) {
+        const errorMessage = (result.payload as string) || 'Errore durante la creazione della nota';
+        setError(errorMessage);
+        return;
+      }
+
+      // Reset del dialog solo se tutto è andato bene
       setSelectedFile(null);
+      setError(null);
       setIsOpen(false);
       
       // Reset del file input
@@ -77,12 +108,13 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
       }
     } catch (error) {
       console.error('Errore durante la lettura del file:', error);
-      alert('Errore durante l\'importazione del file');
+      setError('Errore durante l\'importazione del file');
     }
-  }, [selectedFile, dispatch]);
+  }, [selectedFile, dispatch, notes, error]);
 
   const handleCancel = useCallback(() => {
     setSelectedFile(null);
+    setError(null);
     setIsOpen(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -100,10 +132,20 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
         </DialogHeader>
         
         <div className="space-y-4">
+          {/* Messaggio di errore */}
+          {error && (
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700">
+              <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+              <p className="text-sm">{error}</p>
+            </div>
+          )}
+          
           {/* Drop Zone */}
           <div
             className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-              isDragOver 
+              error
+                ? 'border-red-300 bg-red-50'
+                : isDragOver 
                 ? 'border-primary bg-primary/10' 
                 : 'border-gray-300 hover:border-gray-400'
             }`}
@@ -169,7 +211,7 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
               </Button>
               <Button 
                 onClick={handleImport}
-                disabled={!selectedFile}
+                disabled={!selectedFile || !!error}
                 className="bg-primary"
               >
                 Importa
