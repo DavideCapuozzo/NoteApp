@@ -8,6 +8,8 @@ type AiInputProps = {
   onHeightChange?: (h: number) => void;
   onUploadToNote?: (text: string) => void;
   isVisible?: boolean;
+  noteTitle?: string;
+  noteContent?: string;
 };
 export default function AiInput(props: AiInputProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +26,7 @@ export default function AiInput(props: AiInputProps) {
   const maxMessagesHeight = 400; // Altezza massima per l'area messaggi
 
   // Hook per gestire la chat con Gemini
-  const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat();
+  const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat(props.noteTitle, props.noteContent);
 
   // Determina se il componente deve essere visibile
   const shouldBeVisible = props.isVisible !== false;
@@ -275,7 +277,7 @@ export default function AiInput(props: AiInputProps) {
                   rows={1}
                   value={message}
                   className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-transparent break-words hyphens-auto text-[14px] z-0"
-                  placeholder="Ask a question ..."
+                  placeholder={(props.noteTitle || props.noteContent) ? "Fai una domanda sulla nota o chiedi aiuto..." : "Ask a question ..."}
                   style={{
                     overflowY: "auto",
                     overflowWrap: "break-word",

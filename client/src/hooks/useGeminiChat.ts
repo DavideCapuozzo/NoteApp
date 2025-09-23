@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { geminiService, ChatMessage } from '../services/gemini';
 
-export const useGeminiChat = () => {
+export const useGeminiChat = (noteTitle?: string, noteContent?: string) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,9 +31,14 @@ export const useGeminiChat = () => {
           .map(msg => `${msg.role === 'user' ? 'Utente' : 'Assistant'}: ${msg.content}`)
           .join('\n');
         
-        response = await geminiService.sendMessageWithContext(message, conversationContext);
+        response = await geminiService.sendMessageWithNoteContext(message, conversationContext, noteTitle, noteContent);
       } else {
-        response = await geminiService.sendMessage(message);
+        // Se non ci sono messaggi precedenti ma abbiamo una nota, includiamola comunque
+        if (noteTitle || noteContent) {
+          response = await geminiService.sendMessageWithNoteContext(message, '', noteTitle, noteContent);
+        } else {
+          response = await geminiService.sendMessage(message);
+        }
       }
 
       // Aggiungi la risposta dell'AI
@@ -52,7 +57,7 @@ export const useGeminiChat = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [messages]);
+  }, [messages, noteTitle, noteContent]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);

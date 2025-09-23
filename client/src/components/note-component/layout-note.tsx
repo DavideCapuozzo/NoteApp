@@ -133,6 +133,8 @@ export default function LayoutNote() {
           onHeightChange={setAiInputHeight}
           onUploadToNote={handleUploadToNote}
           isVisible={!isTyping}
+          noteTitle={title}
+          noteContent={content}
         />
       </div>
       
