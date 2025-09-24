@@ -1,5 +1,6 @@
 import MenuHome from "./menu-home";
 import LogoCloud from "./logo-cloud";
+import Testimonials from "./testimonials";
 
 
 export default function LayoutHome() {
@@ -23,7 +24,7 @@ export default function LayoutHome() {
                 />
 
             </div>
-            
+
             <LogoCloud />
 
             <div className="flex flex-col bg-gray-100 items-center align-middle py-10">
@@ -61,6 +62,7 @@ export default function LayoutHome() {
 
                 </div>
             </div>
+            <Testimonials />
         </div>
     );
 }
