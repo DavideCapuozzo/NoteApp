@@ -185,7 +185,7 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="italic outline-none font-bold mb-6 w-full overflow-hidden hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words text-[30px] font-heading"
-                    placeholder="Titolo della nota"
+                    placeholder="What is Lorem Ipsum?"
                     rows={1}
                     onInput={handleInput}
                     style={{ overflowX: "hidden", overflowWrap: "break-word", resize: "none" }}
@@ -198,7 +198,7 @@ const NoteInput = forwardRef<NoteInputHandle, NoteInputProps>(({ aiInputHeight, 
                     onChange={(e) => setContent(e.target.value)}
                     rows={1}
                     className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-[#fdfdfc] dark:bg-neutral-900 break-words hyphens-auto text-[25px] font-body"
-                    placeholder="Scrivi il contenuto della nota qui..."
+                    placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                     onInput={handleInput}
                     style={{
                         minHeight: "500px", // Altezza minima per iniziare

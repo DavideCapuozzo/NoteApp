@@ -12,12 +12,14 @@ export default function LayoutDashboard() {
   const dispatch = useAppDispatch();
   const { notes, loading } = useAppSelector(state => state.notes);
   const { isAuthenticated } = useAppSelector(state => state.auth);
+  const [hasInitialized, setHasInitialized] = React.useState(false);
 
   React.useEffect(() => {
-    if (isAuthenticated && notes.length === 0 && !loading) {
+    if (isAuthenticated && !hasInitialized && !loading) {
       dispatch(fetchNotes({ page: 1, limit: 10 }));
+      setHasInitialized(true);
     }
-  }, [isAuthenticated, dispatch, notes.length, loading]);
+  }, [isAuthenticated, dispatch, hasInitialized, loading]);
 
 
   // Rimuovo il blocco di loading globale: il caricamento viene gestito solo in NotesList
@@ -25,7 +27,11 @@ export default function LayoutDashboard() {
   return (
     <div className="flex flex-col min-h-screen bg-[#fdfdfc]">
       <Menu />
-      {isAuthenticated && notes && notes.length > 0 ? <NotesList notes={notes} /> : <NotesList notes={[]} />}
+      {isAuthenticated && notes && notes.length > 0 ? (
+        <NotesList notes={notes} />
+      ) : (
+        <Home />
+      )}
       <Footer />
     </div>
   );

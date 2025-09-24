@@ -33,7 +33,10 @@ export default function LayoutNote() {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchNote(id));
+      // Solo fai la chiamata se non abbiamo già la nota corretta in currentNote
+      if (!currentNote || currentNote._id !== id) {
+        dispatch(fetchNote(id));
+      }
     } else {
       dispatch(clearCurrentNote()); // Se non c'è id, stiamo creando una nuova nota
     }
@@ -46,8 +49,12 @@ export default function LayoutNote() {
     if (currentNote) {
       setTitle(currentNote.title);
       setContent(currentNote.content);
+    } else if (!id) {
+      // Solo resetta i campi se stiamo creando una nuova nota (senza id)
+      setTitle("");
+      setContent("");
     }
-  }, [currentNote]);
+  }, [currentNote, id]);
 
   const handleSave = () => {
     toast.loading('Salvataggio in corso...');
@@ -62,8 +69,6 @@ export default function LayoutNote() {
       dispatch(createNote({ title, content }))
         .then((result:any) => {
           if (result.type === 'notes/createNote/fulfilled') {
-            setTitle("");
-            setContent("");
             toast.dismiss();
             toast.success('Nota creata con successo');
             // Naviga direttamente alla nota appena creata
