@@ -2,6 +2,7 @@ import { ArrowUpRight, Forward } from "lucide-react";
 import { Button } from "../ui/button";
 import {AnimatedGridPattern}  from "../ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 export default function CTABanner() {
   return (
@@ -35,7 +36,7 @@ export default function CTABanner() {
         </div>
         <div className="relative z-0 mt-14 flex flex-col sm:flex-row gap-4 align-middle justify-center text-white">
           <Button size="lg" className="text-white hover:border-1 hover:border-white">
-            Get Started <ArrowUpRight className="!h-5 !w-5" />
+            <Link className="!text-white" to='/auth/registration'>Get Started</Link> <ArrowUpRight className="!h-5 !w-5" />
           </Button>
         </div>
       </div>

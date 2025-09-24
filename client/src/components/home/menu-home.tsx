@@ -1,4 +1,5 @@
 import { Pencil } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function MenuHome({ ...props }: React.ComponentProps<'div'>) {
     return (
@@ -8,13 +9,15 @@ export default function MenuHome({ ...props }: React.ComponentProps<'div'>) {
                 <div className="flex items-center gap-4">
                     {/* Icona Matita */}
                     <button className="flex items-center gap-2">
-                        <Pencil className="h-6 w-6"/>
+                        <Pencil className="h-6 w-6" />
                     </button>
 
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                    <p className="mb-0">Login</p>
-                    <button className="px-4 py-2 bg-[#2FCCC3] text-white rounded hover:bg-[#26b2ad] transition">Sign up</button>
+                    <Link className="" to="/auth/login">
+                        Login
+                    </Link>
+                    <button className="px-4 py-2 bg-[#2FCCC3] text-white rounded hover:bg-[#26b2ad] transition"><Link className="!text-white" to='/auth/registration'>Sign up</Link></button>
                 </div>
             </div>
         </header>
