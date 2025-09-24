@@ -1,6 +1,7 @@
 import MenuHome from "./menu-home";
 import LogoCloud from "./logo-cloud";
 import Testimonials from "./testimonials";
+import CTABanner from "./cta-banner";
 
 
 export default function LayoutHome() {
@@ -62,7 +63,11 @@ export default function LayoutHome() {
 
                 </div>
             </div>
+
             <Testimonials />
+
+            <CTABanner />
+
         </div>
     );
 }
