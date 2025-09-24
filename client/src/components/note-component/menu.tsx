@@ -16,6 +16,11 @@ import { useDispatch } from 'react-redux'
 import { logoutUser, resetAuth } from '../../store/auth-slice/index';
 import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function NoteMenu({ onSave, onDelete, noteTitle, noteContent }: { 
   onSave: () => void; 
@@ -78,17 +83,42 @@ export default function NoteMenu({ onSave, onDelete, noteTitle, noteContent }: {
       <div className="w-full max-w-[900px] flex items-center justify-between px-4 py-[90px]">
         {/* Icone a sinistra */}
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Chiudi" onClick={handleClose}>
-            <FaTimes className="h-6 w-6" />
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" onClick={handleClose}>
+            <Tooltip>
+              <TooltipTrigger><FaTimes className="h-6 w-6" /></TooltipTrigger>
+              <TooltipContent>
+                <p>Close</p>
+              </TooltipContent>
+            </Tooltip>
+
+            
           </button>
-          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Salva" onClick={onSave}>
-            <Save className="h-6 w-6" strokeWidth={2} />
+          <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" onClick={onSave}>
+            
+            <Tooltip>
+              <TooltipTrigger><Save className="h-6 w-6" strokeWidth={2} /></TooltipTrigger>
+              <TooltipContent>
+                <p>Save</p>
+              </TooltipContent>
+            </Tooltip>
           </button>
-          <button className="flex items-center gap-2 hover:text-red-600 transition cursor-pointer" title="Elimina" onClick={onDelete}>
-            <Trash2 className="h-6 w-6" strokeWidth={2} />
+          <button className="flex items-center gap-2 hover:text-red-600 transition cursor-pointer" title="Delete" onClick={onDelete}>
+            
+            <Tooltip>
+              <TooltipTrigger><Trash2 className="h-6 w-6" strokeWidth={2} /></TooltipTrigger>
+              <TooltipContent>
+                <p>Delete</p>
+              </TooltipContent>
+            </Tooltip>
           </button>
           <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer" title="Download" onClick={handleDownload}>
-            <Download className="h-6 w-6" strokeWidth={2} />
+            
+            <Tooltip>
+              <TooltipTrigger><Download className="h-6 w-6" strokeWidth={2} /></TooltipTrigger>
+              <TooltipContent>
+                <p>Download</p>
+              </TooltipContent>
+            </Tooltip>
           </button>
         </div>
 

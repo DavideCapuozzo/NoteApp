@@ -112,7 +112,7 @@ export default function LayoutNote() {
     setIsTyping(typing);
   };
 
-  if (loading) return <div>Caricamento...</div>;
+  /* if (loading) return <div>Caricamento...</div>; */
 
   return (
     <div className="flex flex-col bg-[#fdfdfc] justify-center">
