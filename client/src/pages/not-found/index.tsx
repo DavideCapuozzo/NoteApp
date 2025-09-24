@@ -11,7 +11,7 @@ function NotFound() {
                 <div className="flex flex-col items-center justify-center flex-1">
                     <h1 className="text-9xl font-bold">404</h1>
                     <p className="text-2xl">page not found</p>
-                    <Link to="/myuser" className="hover:underline">Back to Home</Link>
+                    <Link to="/myuser" className="hover:underline">Back to Dashboard</Link>
                 </div>
                 
             </div>

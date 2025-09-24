@@ -1,6 +1,6 @@
 import { Menu } from "./menu"
 import { Footer } from "./footer"
-import { Home } from "./home"
+import { Home } from "./homeDash"
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import NotesList from "../note-component/NotesList";
