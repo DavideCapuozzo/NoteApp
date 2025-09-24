@@ -45,9 +45,9 @@ export function Menu({ ...props }: React.ComponentProps<'div'>) {
           
           {/* Pulsante Import */}
           <ImportDialog>
-            <Button variant="ghost" size="sm" className="hover:text-[#2FCCC3] transition">
-              <Upload className="h-5 w-5" />
-            </Button>
+            <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
+              <Upload className="h-6 w-6" />
+            </button>
           </ImportDialog>
         </div>
 
