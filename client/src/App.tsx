@@ -1,6 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import AuthLogin from './pages/auth/Login';
+import LayoutHome from './components/home/layout-home';
 import AuthRegistration from './pages/auth/Register';
 import GoogleCallback from './pages/auth/GoogleCallback';
 import AuthLayout from './components/auth-component/layout';
@@ -28,8 +29,11 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        {/* Redirect principale a /auth */}
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
+        {/* Redirect principale a /home */}
+        <Route path="/" element={<Navigate to="/home" replace />} />
+
+        {/* Home Layout */}
+        <Route path="/home" element={<LayoutHome />} />
 
         {/* Auth Routes */}
         <Route
