@@ -16,6 +16,11 @@ import { toast } from 'sonner'
 import type { AppDispatch } from '../../store/store'
 import { useNavigate } from "react-router-dom"
 import { ImportDialog } from './import-dialog'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function Menu({ ...props }: React.ComponentProps<'div'>) {
 
@@ -40,13 +45,25 @@ export function Menu({ ...props }: React.ComponentProps<'div'>) {
         <div className="flex items-center gap-4">
           {/* Icona Matita */}
           <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
-            <Pencil className="h-6 w-6" onClick={() => navigate('/note')}/>
+            <Tooltip>
+              <TooltipTrigger><Pencil className="h-6 w-6" onClick={() => navigate('/note')}/></TooltipTrigger>
+              <TooltipContent>
+                <p>Write</p>
+              </TooltipContent>
+            </Tooltip>
+            
           </button>
           
           {/* Pulsante Import */}
           <ImportDialog>
             <button className="flex items-center gap-2 hover:text-[#2FCCC3] transition cursor-pointer">
-              <Upload className="h-6 w-6" />
+              
+              <Tooltip>
+                <TooltipTrigger><Upload className="h-6 w-6" /></TooltipTrigger>
+                <TooltipContent>
+                  <p>Import</p>
+                </TooltipContent>
+              </Tooltip>
             </button>
           </ImportDialog>
         </div>

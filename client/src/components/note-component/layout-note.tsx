@@ -57,12 +57,12 @@ export default function LayoutNote() {
   }, [currentNote, id]);
 
   const handleSave = () => {
-    toast.loading('Salvataggio in corso...');
+    toast.loading('Saving in progress...');
     if (currentNote) {
       dispatch(updateNote({ id: currentNote._id, note: { title, content } }))
         .then(() => {
           toast.dismiss();
-          toast.success('Nota aggiornata con successo');
+          toast.success('Note successfully updated');
           navigate('/myuser');
         });
     } else {
@@ -70,7 +70,7 @@ export default function LayoutNote() {
         .then((result:any) => {
           if (result.type === 'notes/createNote/fulfilled') {
             toast.dismiss();
-            toast.success('Nota creata con successo');
+            toast.success('Note successfully created');
             // Naviga direttamente alla nota appena creata
             if(result?.payload?._id){
               navigate(`/note/${result.payload._id}`);
@@ -79,13 +79,13 @@ export default function LayoutNote() {
             }
           } else if (result.type === 'notes/createNote/rejected') {
             toast.dismiss();
-            setErrorMessage(result.payload || 'Errore durante la creazione della nota');
+            setErrorMessage(result.payload || 'Error while creating the note');
             setErrorDialogOpen(true);
           }
         })
         .catch((error: any) => {
           toast.dismiss();
-          setErrorMessage('Errore durante la creazione della nota');
+          setErrorMessage('Error while creating the note');
           setErrorDialogOpen(true);
         });
     }
@@ -95,7 +95,7 @@ export default function LayoutNote() {
     if (currentNote) {
       dispatch(deleteNote(currentNote._id));
       navigate('/myuser');
-      toast.success('Nota eliminata con successo');
+      toast.success('Note successfully deleted');
     }
   };
 
@@ -103,7 +103,7 @@ export default function LayoutNote() {
   const handleUploadToNote = (text: string) => {
     if (text && noteInputRef.current) {
       noteInputRef.current.insertTextAtCursor(text);
-      toast.success('Testo inserito nella posizione del cursore');
+      toast.success('Text inserted at cursor position');
     }
   };
 
