@@ -3,7 +3,7 @@ import { HTMLAttributes } from "react";
 
 function LogoCloud(props: HTMLAttributes<HTMLDivElement>) {
     return (
-        <div {...props} className="my-10 flex flex-row items-center text-center gap-6 align-middle justify-center flex-wrap mx-0 auto">
+        <div {...props} className="my-32 flex flex-row items-center text-center gap-6 align-middle justify-center flex-wrap mx-0 auto">
             <p className="mb-0">Trusted by engineers at</p>
             <div className="flex items-center justify-center flex-wrap gap-4 text-muted-foreground">
                 

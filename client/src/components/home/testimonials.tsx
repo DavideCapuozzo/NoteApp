@@ -64,9 +64,9 @@ const testimonials = [
 const Testimonials = () => (
   <div id="testimonials" className="flex justify-center items-center py-20">
     <div className="h-full w-full">
-      <h2 className="mb-12 text-4xl md:text-5xl font-bold text-center tracking-tight px-6">
+      <h3 className="mb-12 text-center w-full text-2xl md:text-3xl font-bold tracking-tight">
         Testimonials
-      </h2>
+      </h3>
       <div className="relative">
         <div className="z-10 absolute left-0 inset-y-0 w-[15%] bg-gradient-to-r from-background to-transparent" />
         <div className="z-10 absolute right-0 inset-y-0 w-[15%] bg-gradient-to-l from-background to-transparent" />
@@ -85,17 +85,16 @@ const TestimonialList = () =>
   testimonials.map((testimonial) => (
     <div
       key={testimonial.id}
-      className="min-w-96 max-w-sm bg-accent rounded-xl p-6 bg-gray-100"
-    >
+      className="min-w-96 max-w-sm bg-accent rounded-xl p-4 bg-gray-100">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Avatar>
-            <AvatarFallback className="text-xl font-medium bg-primary text-primary-foreground">
+            <AvatarFallback className="text-xl font-medium bg-primary text-primary-foreground bg-[#26b2ad]">
               {testimonial.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-lg font-semibold">{testimonial.name}</p>
+            <p className="text-lg font-semibold mb-0">{testimonial.name}</p>
             <p className="text-sm text-gray-500">{testimonial.designation}</p>
           </div>
         </div>
