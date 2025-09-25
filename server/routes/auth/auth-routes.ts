@@ -16,13 +16,37 @@ router.put('/update-password', authMiddleware, updatePassword)
 router.get('/google', googleAuth)
 router.get('/google/callback', googleCallback)
 
-router.get('/check-auth', authMiddleware, (req:any, res:any) => {
-    const user = req.user;
-    res.status(200).json({
-        success: true,
-        message: 'Authenticated user',
-        user,
-    });
+router.get('/check-auth', authMiddleware, async (req:any, res:any) => {
+    try {
+        const userId = req.user.id;
+        const user = await require('../../models/User').default.findById(userId).select('-password -refreshToken');
+        
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Authenticated user',
+            user: {
+                id: user._id,
+                email: user.email,
+                userName: user.userName,
+                avatar: user.avatar,
+                authProvider: user.authProvider,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Check auth error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching user data'
+        });
+    }
 });
 
 export default router;
