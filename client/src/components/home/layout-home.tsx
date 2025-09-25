@@ -12,7 +12,7 @@ export default function LayoutHome() {
         <div className="flex flex-col bg-[#fdfdfc] justify-center">
             <MenuHome />
             <div className="flex-grow my-24">
-                <h1 className="text-4xl md:text-5xl font-bold text-center tracking-tight px-6 pb-2.5">Notebooks, but smarter.</h1>
+                <h1 className="text-5xl md:text-7xl font-bold text-center tracking-tight px-6 pb-2.5">Notebooks, but smarter.</h1>
                 <p className="mb-12"> Write, import .txt files, chat with AI, and always download your notes with a single click.</p>
                 <button className="px-4 py-2 bg-[#2FCCC3] text-white rounded hover:bg-[#26b2ad] transition"><Link className="!text-white" to="/auth/login">
                         Try It Free
