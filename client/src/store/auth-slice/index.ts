@@ -3,7 +3,7 @@ import axios from "../../lib/axios";
 
 interface User {
     _id: string;
-    username: string;
+    userName: string;  // Cambiato da username a userName per matchare il database
     email: string;
     avatar?: string;
     authProvider?: string;
@@ -97,6 +97,28 @@ export const refreshToken = createAsyncThunk("/auth/refresh",
     }
 )
 
+export const updateUsername = createAsyncThunk("/auth/update-username",
+    async(username: string) => {
+        const response = await axios.put(`http://localhost:5000/api/auth/update-username`, 
+            { username }, 
+            { withCredentials: true }
+        );
+
+        return response.data;
+    }
+)
+
+export const updatePassword = createAsyncThunk("/auth/update-password",
+    async(passwordData: { currentPassword: string; newPassword: string }) => {
+        const response = await axios.put(`http://localhost:5000/api/auth/update-password`, 
+            passwordData, 
+            { withCredentials: true }
+        );
+
+        return response.data;
+    }
+)
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -178,6 +200,27 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthenticated = false;
+            })
+            .addCase(updateUsername.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUsername.fulfilled, (state, action) => {
+                state.isLoading = false;
+                if (action.payload.success && action.payload.user) {
+                    state.user = action.payload.user;
+                }
+            })
+            .addCase(updateUsername.rejected, (state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(updatePassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updatePassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(updatePassword.rejected, (state, action) => {
+                state.isLoading = false;
             })
     }
 })

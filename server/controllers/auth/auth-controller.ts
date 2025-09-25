@@ -137,7 +137,7 @@ export const googleCallback = async (req: any, res: any, next: any) => {
             // Encode user data for URL
             const userData = encodeURIComponent(JSON.stringify({
                 _id: user._id,
-                username: user.username,
+                userName: user.userName,
                 email: user.email,
                 avatar: user.avatar,
                 authProvider: user.authProvider
@@ -257,5 +257,111 @@ export const authMiddleware = async(req:any, res:any, next:any) => {
             success: false,
             message: 'Unauthorised user!'
         })
+    }
+}
+
+// update username
+export const updateUsername = async(req:any, res:any) => {
+    const { username } = req.body;
+    const userId = req.user.id;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        // Verifica se l'utente è registrato localmente
+        if (user.authProvider !== 'local') {
+            return res.status(403).json({
+                success: false,
+                message: 'Cannot update username for non-local accounts'
+            });
+        }
+
+        // Verifica se il nuovo username è già in uso
+        const existingUser = await User.findOne({ userName: username, _id: { $ne: userId } });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: 'Username already taken'
+            });
+        }
+
+        // Aggiorna l'username
+        await User.findByIdAndUpdate(userId, { userName: username });
+
+        const updatedUser = await User.findById(userId).select('-password -refreshToken');
+        
+        res.status(200).json({
+            success: true,
+            message: 'Username updated successfully',
+            user: {
+                _id: updatedUser._id,
+                userName: updatedUser.userName,
+                email: updatedUser.email,
+                authProvider: updatedUser.authProvider,
+                avatar: updatedUser.avatar
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Some error occurred'
+        });
+    }
+}
+
+// update password
+export const updatePassword = async(req:any, res:any) => {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        // Verifica se l'utente è registrato localmente
+        if (user.authProvider !== 'local') {
+            return res.status(403).json({
+                success: false,
+                message: 'Cannot update password for non-local accounts'
+            });
+        }
+
+        // Verifica la password attuale
+        const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({
+                success: false,
+                message: 'Current password is incorrect'
+            });
+        }
+
+        // Hash della nuova password
+        const hashNewPassword = await bcrypt.hash(newPassword, 12);
+
+        // Aggiorna la password
+        await User.findByIdAndUpdate(userId, { password: hashNewPassword });
+        
+        res.status(200).json({
+            success: true,
+            message: 'Password updated successfully'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Some error occurred'
+        });
     }
 }

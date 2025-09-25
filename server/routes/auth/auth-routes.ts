@@ -1,4 +1,4 @@
-const {registerUser, loginUser, logoutUser, authMiddleware, googleAuth, googleCallback, refreshToken} = require('../../controllers/auth/auth-controller')
+const {registerUser, loginUser, logoutUser, authMiddleware, googleAuth, googleCallback, refreshToken, updateUsername, updatePassword} = require('../../controllers/auth/auth-controller')
 import express from 'express';
 
 const router = express.Router();
@@ -7,6 +7,10 @@ router.post('/registration', registerUser)
 router.post('/login', loginUser)
 router.post('/logout', logoutUser)
 router.post('/refresh', refreshToken)
+
+// Profile update routes (require authentication)
+router.put('/update-username', authMiddleware, updateUsername)
+router.put('/update-password', authMiddleware, updatePassword)
 
 // Google OAuth routes
 router.get('/google', googleAuth)

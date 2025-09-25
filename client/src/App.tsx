@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { checkAuth } from './store/auth-slice';
 import type { AppDispatch, RootState } from './store/store';
 import LayoutNote from './components/note-component/layout-note';
+import Profile from './pages/profile/profile';
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -57,6 +58,16 @@ function App() {
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
               <LayoutDashboard />
+            </CheckAuth>
+          }
+        />
+
+        {/* Profile */}
+        <Route
+          path="/profile"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <Profile />
             </CheckAuth>
           }
         />
