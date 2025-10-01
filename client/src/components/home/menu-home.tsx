@@ -8,9 +8,9 @@ export default function MenuHome({ ...props }: React.ComponentProps<'div'>) {
                 {/* Actions */}
                 <div className="flex items-center gap-4">
                     {/* Icona Matita */}
-                    <button className="flex items-center gap-2">
+                    <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
                         <Pencil className="h-6 w-6" />
-                    </button>
+                    </Link>
 
                 </div>
                 <div className="flex flex-row items-center gap-2">
