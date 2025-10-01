@@ -40,7 +40,7 @@ export default function LayoutHome() {
                 <div className="flex flex-row justify-center items-center align-middle">
 
                     <video
-                        src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1758744851/VideoHomeBanner_ygg3b1.mp4"
+                        src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1759346773/chatAi_bassa_t6jwit.mp4"
                         className="inset-0 h-[600px] w-[1000px] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
                         autoPlay
                         loop
@@ -58,7 +58,7 @@ export default function LayoutHome() {
                 <div className="flex flex-row justify-center items-center align-middle">
 
                     <video
-                        src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1758744851/VideoHomeBanner_ygg3b1.mp4"
+                        src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1759346764/import_bassa_ohr4da.mp4"
                         className="inset-0 h-[600px] w-[1000px] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
                         autoPlay
                         loop
