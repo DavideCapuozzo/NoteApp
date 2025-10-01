@@ -18,11 +18,11 @@ export default function LayoutHome() {
                         Try It Free
                     </Link></button>
             </div>
-            <div className="flex justify-center items-center align-middle">
+            <div className="flex flex-row justify-center items-center align-middle">
 
                 <video
                     src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1758744851/VideoHomeBanner_ygg3b1.mp4"
-                    className="inset-0 h-[60%] w-[60%] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
+                    className="inset-0 h-[600px] w-[1000px] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
                     autoPlay
                     loop
                     muted
@@ -41,7 +41,7 @@ export default function LayoutHome() {
 
                     <video
                         src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1758744851/VideoHomeBanner_ygg3b1.mp4"
-                        className="inset-0 h-[60%] w-[60%] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
+                        className="inset-0 h-[600px] w-[1000px] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
                         autoPlay
                         loop
                         muted
@@ -59,7 +59,7 @@ export default function LayoutHome() {
 
                     <video
                         src="https://res.cloudinary.com/ddalfn2r7/video/upload/v1758744851/VideoHomeBanner_ygg3b1.mp4"
-                        className="inset-0 h-[60%] w-[60%] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
+                        className="inset-0 h-[600px] w-[1000px] object-cover rounded-lg shadow-lg dark:brightness-[0.2] dark:grayscale"
                         autoPlay
                         loop
                         muted

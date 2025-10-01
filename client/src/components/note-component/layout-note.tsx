@@ -28,8 +28,9 @@ export default function LayoutNote() {
   const noteInputRef = useRef<NoteInputHandle>(null);
 
   const { currentNote, loading } = useAppSelector((state) => state.notes);
-  const [title, setTitle] = useState(currentNote?.title || "");
-  const [content, setContent] = useState(currentNote?.content || "");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -49,10 +50,12 @@ export default function LayoutNote() {
     if (currentNote) {
       setTitle(currentNote.title);
       setContent(currentNote.content);
+      setIsDataLoaded(true);
     } else if (!id) {
       // Solo resetta i campi se stiamo creando una nuova nota (senza id)
       setTitle("");
       setContent("");
+      setIsDataLoaded(true);
     }
   }, [currentNote, id]);
 
@@ -112,7 +115,17 @@ export default function LayoutNote() {
     setIsTyping(typing);
   };
 
-  /* if (loading) return <div>Caricamento...</div>; */
+  // Mostra loading solo se stiamo caricando una nota esistente e i dati non sono ancora arrivati
+  if (id && (loading || !isDataLoaded)) {
+    return (
+      <div className="flex flex-col bg-[#fdfdfc] justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p>Caricamento nota...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col bg-[#fdfdfc] justify-center">

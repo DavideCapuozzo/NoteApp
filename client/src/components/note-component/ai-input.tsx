@@ -25,8 +25,8 @@ export default function AiInput(props: AiInputProps) {
   const minParentHeight = minTextarea + iconsHeight + extraPadding;
   const maxMessagesHeight = 400; // Altezza massima per l'area messaggi
 
-  // Hook per gestire la chat con Gemini
-  const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat(props.noteTitle, props.noteContent);
+  // Hook per gestire la chat con Gemini (senza contesto della nota)
+  const { messages, isLoading, error, sendMessage, clearMessages } = useGeminiChat();
 
   // Determina se il componente deve essere visibile
   const shouldBeVisible = props.isVisible !== false;
@@ -148,7 +148,7 @@ export default function AiInput(props: AiInputProps) {
         }
       }, 50);
 
-      // Invia il messaggio - ora il contesto viene costruito dalla cronologia dei messaggi
+      // Invia il messaggio - ora la chat è indipendente dalla nota
       await sendMessage(userMessage);
     } catch (err) {
       console.error('Errore nell\'invio del messaggio:', err);
@@ -277,7 +277,7 @@ export default function AiInput(props: AiInputProps) {
                   rows={1}
                   value={message}
                   className="w-full rounded-none outline-none resize-none hover:placeholder:opacity-50 focus:placeholder:opacity-0 bg-transparent break-words hyphens-auto text-[14px] z-0"
-                  placeholder={(props.noteTitle || props.noteContent) ? "Fai una domanda sulla nota o chiedi aiuto..." : "Ask a question ..."}
+                  placeholder="Ask a question ..."
                   style={{
                     overflowY: "auto",
                     overflowWrap: "break-word",
