@@ -123,6 +123,18 @@ export default function AiInput(props: AiInputProps) {
       setRadius(50);
     }
   }, [isOpen]);
+
+  // useLayoutEffect aggiuntivo per ricalcolare l'altezza quando la chat si apre con messaggi esistenti
+  useLayoutEffect(() => {
+    if (isOpen && messages.length > 0) {
+      // Piccolo delay per assicurarsi che il DOM sia aggiornato
+      setTimeout(() => {
+        const newHeight = calculateTotalHeight();
+        setHeight(newHeight);
+        setRadius(newHeight > 100 ? 20 : 50);
+      }, 50);
+    }
+  }, [isOpen, messages.length]);
   
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     adjustHeight(e.currentTarget);
@@ -306,7 +318,6 @@ export default function AiInput(props: AiInputProps) {
                     aria-label="Chiudi"
                     onClick={() => {
                       setIsOpen(false);
-                      clearMessages();
                       setMessage('');
                       setSelectedText('');
                     }}
