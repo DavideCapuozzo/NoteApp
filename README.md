@@ -215,97 +215,6 @@ Personal workspace to manage all your notes
 - **Reference Integrity** - Proper user-note relationships
 - **Secure Queries** - Protection against injection attacks
 
-## 🎯 Key Features Breakdown
-
-### **Backend Architecture**
-```typescript
-// JWT Authentication Middleware
-export const authMiddleware = async(req: any, res: any, next: any) => {
-    const token = req.cookies.token;
-    if(!token) return res.status(401).json({
-        success: false,
-        message: 'Unauthorised user!'
-    });
-    
-    try {
-        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
-        req.user = decoded;
-        next();
-    } catch(error) {
-        res.status(401).json({
-            success: false,
-            message: 'Invalid token!'
-        });
-    }
-};
-```
-
-### **Database Models**
-```typescript
-// User Schema with Authentication Support
-const UserSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    userName: { type: String, required: true, unique: true },
-    password: { type: String, required: false }, // Optional for Google OAuth
-    googleId: { type: String, sparse: true, unique: true },
-    authProvider: { 
-        type: String, 
-        enum: ['local', 'google'], 
-        default: 'local' 
-    },
-    refreshToken: { type: String, default: null }
-}, { timestamps: true });
-```
-
-### **Smart Note Editor**
-```typescript
-// Auto-save functionality
-const handleTypingChange = (typing: boolean) => {
-  setIsTyping(typing);
-  // Auto-save logic when user stops typing
-};
-```
-
-### **AI Integration**
-```typescript
-// Gemini AI integration
-const { messages, isLoading, error, sendMessage } = useGeminiChat();
-```
-
-### **Responsive Design**
-```css
-/* Mobile-first responsive design */
-.hero-section {
-  @apply h-[900px] md:h-auto;
-  @apply flex flex-col justify-center items-center;
-}
-```
-
-## 🚀 Available Scripts
-
-### **Frontend (client directory)**
-```bash
-# Development
-npm run dev          # Start development server
-
-# Building
-npm run build        # Build for production
-npm run preview      # Preview production build
-
-# Code Quality
-npm run lint         # Run ESLint
-```
-
-### **Backend (server directory)**
-```bash
-# Development
-npm run dev          # Start server with nodemon (auto-restart)
-npm start           # Start server in production mode
-
-# Testing
-npm test            # Run tests (placeholder)
-```
-
 ## 📁 Project Structure
 
 ```
@@ -487,34 +396,6 @@ app.use(passport.session());
 
 ## 🚀 Deployment
 
-### **Frontend Deployment (Vercel/Netlify)**
-```bash
-# Build for production
-cd client
-npm run build
-
-# Deploy to Vercel
-vercel deploy
-
-# Or deploy to Netlify
-netlify deploy --prod --dir=dist
-```
-
-### **Backend Deployment (Railway/Heroku)**
-```bash
-# Prepare for deployment
-cd server
-
-# Build TypeScript files
-npm run build
-
-# Deploy to Railway
-railway deploy
-
-# Or deploy to Heroku
-git push heroku main
-```
-
 ### **Environment Variables for Production**
 ```bash
 # Production Backend (.env)
@@ -541,10 +422,6 @@ VITE_GEMINI_API_KEY=your_gemini_api_key
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - **Google Gemini AI** for intelligent writing assistance
@@ -556,27 +433,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**[🌟 Star this repo](https://github.com/YourUsername/NoteApp)** if you found it helpful!
-
-Made with ❤️ by [Your Name]
+Made with ❤️
 
 </div>
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
