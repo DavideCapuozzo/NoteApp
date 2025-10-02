@@ -4,7 +4,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react-jsx",             // 👈 abilita JSX
+    "jsx": "react-jsx",             
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
