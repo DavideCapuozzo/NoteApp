@@ -34,7 +34,7 @@ const initialState: AuthState = {
 
 export const registerUser = createAsyncThunk("/auth/registration",
     async(formData: RegisterFormData) => {
-        const response = await axios.post(`http://localhost:5000/api/auth/registration`, formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/registration`, formData, {
             withCredentials: true
         });
 
@@ -44,7 +44,7 @@ export const registerUser = createAsyncThunk("/auth/registration",
 
 export const loginUser = createAsyncThunk("/auth/login",
     async(formData: LoginFormData) => {
-        const response = await axios.post(`http://localhost:5000/api/auth/login`, formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, formData, {
             withCredentials: true
         });
 
@@ -58,7 +58,7 @@ export const checkAuth = createAsyncThunk("/auth/checkauth",
         // quello inserito sempre nello stesso file che mi permette di accedere alle routes quindi 
         // andro a completare il mio link con register che 'e la route 
         // che mi permette di accedere al controller 
-        const response = await axios.get(`http://localhost:5000/api/auth/check-auth`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
                 withCredentials: true,
                 headers: {
                     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate,',
@@ -78,7 +78,7 @@ export const logoutUser = createAsyncThunk("/auth/logout",
         // quello inserito sempre nello stesso file che mi permette di accedere alle routes quindi 
         // andro a completare il mio link con register che 'e la route 
         // che mi permette di accedere al controller 
-        const response = await axios.post(`http://localhost:5000/api/auth/logout`, {}, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, {
             withCredentials: true,
             
         });
@@ -89,7 +89,7 @@ export const logoutUser = createAsyncThunk("/auth/logout",
 
 export const refreshToken = createAsyncThunk("/auth/refresh",
     async() => {
-        const response = await axios.post(`http://localhost:5000/api/auth/refresh`, {}, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/refresh`, {}, {
             withCredentials: true
         });
 
@@ -99,7 +99,7 @@ export const refreshToken = createAsyncThunk("/auth/refresh",
 
 export const updateUsername = createAsyncThunk("/auth/update-username",
     async(username: string) => {
-        const response = await axios.put(`http://localhost:5000/api/auth/update-username`, 
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/update-username`, 
             { username }, 
             { withCredentials: true }
         );
@@ -110,7 +110,7 @@ export const updateUsername = createAsyncThunk("/auth/update-username",
 
 export const updatePassword = createAsyncThunk("/auth/update-password",
     async(passwordData: { currentPassword: string; newPassword: string }) => {
-        const response = await axios.put(`http://localhost:5000/api/auth/update-password`, 
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/update-password`, 
             passwordData, 
             { withCredentials: true }
         );
