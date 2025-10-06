@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "@/store/auth-slice"
 import { toast } from "sonner"
+import type { AppDispatch } from "@/store/store"
 
 const initialState = {
   email: "",
@@ -21,7 +22,7 @@ export function RegistrationForm({
 }: React.ComponentProps<"form">) {
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   
 
@@ -50,7 +51,14 @@ export function RegistrationForm({
 
     
     
-    dispatch(registerUser(formData)).then((data) => {
+    // Prepara i dati per l'invio (rimuovi confirmPassword)
+    const registrationData = {
+      userName: formData.userName,
+      email: formData.email,
+      password: formData.password
+    };
+    
+    dispatch(registerUser(registrationData)).then((data) => {
       if(data?.payload?.success){
         toast.success(data?.payload?.message);
         navigate('/auth/login')

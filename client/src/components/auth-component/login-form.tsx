@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import { toast } from "sonner"
 import { loginUser } from "@/store/auth-slice"
 import { Navigate } from "react-router-dom"
+import type { AppDispatch } from "@/store/store"
 
 
 const initialState = {
@@ -20,7 +21,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"form">) {
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(initialState)

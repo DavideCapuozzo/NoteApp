@@ -21,7 +21,7 @@ interface LoginFormData {
 }
 
 interface RegisterFormData {
-    username: string;
+    userName: string;
     email: string;
     password: string;
 }
