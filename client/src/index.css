@@ -321,3 +321,13 @@ input, textarea {
     color: #000000 !important;
   }
 }
+
+/* Regole specifiche per TooltipContent - testo bianco su desktop e mobile */
+[data-slot="tooltip-content"] p {
+  color: #ffffff !important;
+}
+
+/* Assicura che tutti gli elementi nei tooltip siano bianchi */
+[data-slot="tooltip-content"] * {
+  color: #ffffff !important;
+}
