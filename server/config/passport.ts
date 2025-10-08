@@ -16,7 +16,7 @@ if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
     passport.use(new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "/api/auth/google/callback"
+        callbackURL: `${process.env.SERVER_URL || 'http://localhost:5000'}/api/auth/google/callback`
     }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
         try {
             // Verifica se l'utente esiste già
