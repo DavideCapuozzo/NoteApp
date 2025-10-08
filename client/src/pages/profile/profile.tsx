@@ -328,7 +328,7 @@ export default function Profile() {
                                                 <Button variant="outline" onClick={() => setIsPasswordDialogOpen(false)} style={{ fontFamily: 'var(--font-body)' }}>
                                                     Annulla
                                                 </Button>
-                                                <Button onClick={handleUpdatePassword} disabled={isLoading} style={{ fontFamily: 'var(--font-body)' }}>
+                                                <Button onClick={handleUpdatePassword} disabled={isLoading} style={{ fontFamily: 'var(--font-body)' }} className="hover:border hover:border-black">
                                                     {isLoading ? 'Salvataggio...' : 'Salva'}
                                                 </Button>
                                             </div>
