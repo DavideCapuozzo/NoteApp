@@ -93,7 +93,7 @@ export function LoginForm({
             required
           />
         </div>
-        <Button type="submit" className="w-full" /* variant="" */ >
+        <Button type="submit" className="w-full bg-[#2FCCC3] text-white hover:bg-[#26b2ad] transition">
           Login
         </Button>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
@@ -101,7 +101,7 @@ export function LoginForm({
             Or continue with
           </span>
         </div>
-        <Button /* variant="loginGoogle" */ className="w-full" type="button" onClick={handleGoogleLogin}>
+        <Button /* variant="loginGoogle" */ className="w-full border border-black" type="button" onClick={handleGoogleLogin}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" className="mr-2 h-5 w-5">
             <path d="M533.5 278.4c0-17.4-1.6-34.1-4.6-50.4H272v95.3h147.3c-6.4 34.1-25.4 62.9-54.3 82.2v68.3h87.7c51.3-47.3 80.8-117.1 80.8-195.4z" fill="#4285f4" />
             <path d="M272 544.3c73.5 0 135.2-24.3 180.2-66.1l-87.7-68.3c-24.3 16.3-55.3 25.9-92.5 25.9-71 0-131.2-47.9-152.8-112.2H29v70.4c45.2 89.3 137.9 150.3 243 150.3z" fill="#34a853" />
