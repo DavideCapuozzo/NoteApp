@@ -40,9 +40,10 @@
   line-height: 1.5;
   font-weight: 400; */
 
-  color-scheme: light dark;
-  /* color: rgba(255, 255, 255, 0.87); */
-  background-color: #42424;
+  color-scheme: light;
+  /* Forza solo il tema light per evitare auto-dark mode sui mobile */
+  color: #000000;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -99,18 +100,30 @@ button:focus-visible {
   outline: 1px auto -webkit-focus-ring-color; 
 } */
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #262626;
-    background-color: #fdfdfc;
-  }
-  a:hover {
-    color: #2FCCC3;
-  }
-  /* button {
-    background-color: #f9f9f9;
-  } */
+/* Forza tema light su tutti i dispositivi */
+body {
+  color: #000000 !important;
+  background-color: #ffffff !important;
 }
+
+/* Assicura che h1, h2, h3, p abbiano colore nero */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  color: inherit;
+}
+
+/* Mantieni solo le regole light */
+:root {
+  color: #262626;
+  background-color: #fdfdfc;
+}
+
+a:hover {
+  color: #2FCCC3;
+}
+
+/* button {
+  background-color: #f9f9f9;
+} */
 
 @layer base {
   :root {
@@ -289,5 +302,22 @@ input, textarea {
 
   .font-body {
     font-family: var(--font-body) !important;
+  }
+}
+
+/* Regole specifiche per dispositivi mobili - forza colore nero */
+@media (max-width: 768px) {
+  * {
+    color: #000000 !important;
+  }
+  
+  body {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+  
+  /* Forza tutti i testi a essere neri su mobile */
+  p, span, div, h1, h2, h3, h4, h5, h6, label, input, textarea, button {
+    color: #000000 !important;
   }
 }
