@@ -331,3 +331,13 @@ input, textarea {
 [data-slot="tooltip-content"] * {
   color: #ffffff !important;
 }
+
+/* Regole specifiche per CTA Banner - forza tutti i <p> a essere bianchi */
+.bg-\[black\] p {
+  color: #ffffff !important;
+}
+
+/* Regola alternativa per selettore più specifico del CTA Banner */
+.dark.bg-\[black\] p {
+  color: #ffffff !important;
+}
