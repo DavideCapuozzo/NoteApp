@@ -12,11 +12,19 @@ if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
     console.warn('⚠️  Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your .env file');
     console.warn('⚠️  Google authentication will not work until credentials are configured');
 } else {
+    // Prova con URL relativo se SERVER_URL non è configurato
+    const callbackURL = process.env.SERVER_URL 
+        ? `${process.env.SERVER_URL}/api/auth/google/callback`
+        : "/api/auth/google/callback";
+    
+    console.log('🔧 Google OAuth callback URL:', callbackURL);
+    console.log('🔧 SERVER_URL env var:', process.env.SERVER_URL || 'NOT SET');
+    
     // Configurazione Google OAuth Strategy
     passport.use(new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.SERVER_URL || 'http://localhost:5000'}/api/auth/google/callback`
+        callbackURL: callbackURL
     }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
         try {
             // Verifica se l'utente esiste già
