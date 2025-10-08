@@ -57,18 +57,31 @@ export const loginUser = async(req:any, res:any) => {
             id: checkUser._id,
             role: checkUser.role,
             email: checkUser.email
-        }, 'CLIENT_SECRET_KEY', {expiresIn: '15m'}) // Ridotto a 15 minuti
+        }, process.env.JWT_SECRET || 'CLIENT_SECRET_KEY', {expiresIn: '15m'}) // Ridotto a 15 minuti
 
-        // Genera refresh token (durata lunga)
+        // Genera refresh token (durata lunga)  
         const refreshToken = jwt.sign({
             id: checkUser._id
-        }, 'REFRESH_SECRET_KEY', {expiresIn: '7d'}) // 7 giorni
+        }, process.env.JWT_SECRET || 'REFRESH_SECRET_KEY', {expiresIn: '7d'}) // 7 giorni
 
         // Salva il refresh token nel database
         await User.findByIdAndUpdate(checkUser._id, { refreshToken });
 
-        res.cookie('token', accessToken, {httpOnly:true, secure:false})
-           .cookie('refreshToken', refreshToken, {httpOnly:true, secure:false})
+        // Determina se siamo in produzione
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        res.cookie('token', accessToken, {
+            httpOnly: true, 
+            secure: isProduction, // true solo in produzione
+            sameSite: isProduction ? 'none' : 'lax', // 'none' per cross-origin in produzione
+            maxAge: 15 * 60 * 1000 // 15 minuti
+        })
+        .cookie('refreshToken', refreshToken, {
+            httpOnly: true, 
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 giorni
+        })
            .json({
             success : true, 
             message: 'Logged in Successfully',
@@ -124,12 +137,12 @@ export const googleCallback = async (req: any, res: any, next: any) => {
                 id: user._id,
                 role: user.role,
                 email: user.email
-            }, 'CLIENT_SECRET_KEY', { expiresIn: '15m' });
+            }, process.env.JWT_SECRET || 'CLIENT_SECRET_KEY', { expiresIn: '15m' });
 
             // Genera refresh token (durata lunga)
             const refreshToken = jwt.sign({
                 id: user._id
-            }, 'REFRESH_SECRET_KEY', { expiresIn: '7d' });
+            }, process.env.JWT_SECRET || 'REFRESH_SECRET_KEY', { expiresIn: '7d' });
 
             // Salva il refresh token nel database
             await User.findByIdAndUpdate(user._id, { refreshToken });
@@ -143,9 +156,20 @@ export const googleCallback = async (req: any, res: any, next: any) => {
                 authProvider: user.authProvider
             }));
 
+            // Determina se siamo in produzione
+            const isProduction = process.env.NODE_ENV === 'production';
+
             // Imposta i cookie
-            res.cookie('token', accessToken, { httpOnly: true, secure: false })
-               .cookie('refreshToken', refreshToken, { httpOnly: true, secure: false });
+            res.cookie('token', accessToken, { 
+                httpOnly: true, 
+                secure: isProduction,
+                sameSite: isProduction ? 'none' : 'lax'
+            })
+            .cookie('refreshToken', refreshToken, { 
+                httpOnly: true, 
+                secure: isProduction,
+                sameSite: isProduction ? 'none' : 'lax'
+            });
 
             // Reindirizza al frontend con dati
             res.redirect(`${process.env.CLIENT_URL}/auth/google/callback?token=${accessToken}&user=${userData}`);
@@ -158,9 +182,19 @@ export const googleCallback = async (req: any, res: any, next: any) => {
 
 //logout
 export const logoutUser = (req:any, res:any) => {
-    res.clearCookie('token')
-       .clearCookie('refreshToken')
-       .json({
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax'
+    })
+    .clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax'
+    })
+    .json({
         success : true, 
         message: 'Logged out Successfully',
     })
@@ -179,7 +213,7 @@ export const refreshToken = async (req: any, res: any) => {
 
     try {
         // Verifica il refresh token
-        const decoded = jwt.verify(refreshToken, 'REFRESH_SECRET_KEY');
+        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET || 'REFRESH_SECRET_KEY');
         
         // Trova l'utente e verifica che il refresh token corrisponda
         const user = await User.findById(decoded.id);
@@ -195,18 +229,29 @@ export const refreshToken = async (req: any, res: any) => {
             id: user._id,
             role: user.role,
             email: user.email
-        }, 'CLIENT_SECRET_KEY', {expiresIn: '15m'});
+        }, process.env.JWT_SECRET || 'CLIENT_SECRET_KEY', {expiresIn: '15m'});
 
         // Opzionalmente, genera anche un nuovo refresh token
         const newRefreshToken = jwt.sign({
             id: user._id
-        }, 'REFRESH_SECRET_KEY', {expiresIn: '7d'});
+        }, process.env.JWT_SECRET || 'REFRESH_SECRET_KEY', {expiresIn: '7d'});
 
         // Aggiorna il refresh token nel database
         await User.findByIdAndUpdate(user._id, { refreshToken: newRefreshToken });
 
-        res.cookie('token', newAccessToken, {httpOnly: true, secure: false})
-           .cookie('refreshToken', newRefreshToken, {httpOnly: true, secure: false})
+        // Determina se siamo in produzione
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        res.cookie('token', newAccessToken, {
+            httpOnly: true, 
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax'
+        })
+        .cookie('refreshToken', newRefreshToken, {
+            httpOnly: true, 
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax'
+        })
            .json({
             success: true,
             message: 'Token refreshed successfully',
@@ -238,7 +283,7 @@ export const authMiddleware = async(req:any, res:any, next:any) => {
     })
 
     try{
-        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'CLIENT_SECRET_KEY');
         req.user = decoded;
         next()
     }catch(error: any){
