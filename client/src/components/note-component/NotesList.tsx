@@ -43,7 +43,7 @@ const NotesList = ({ notes }: { notes: any[] }) => {
                                         <div className='border-b pb-4 mb-5 border-[#e5e5e5]'>
                                             {/* Layout mobile: stack vertically */}
                                             <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
-                                                <h2 className='scroll-m-20 text-xl sm:text-3xl font-semibold tracking-tight first:mt-0 flex-1 min-w-0'>
+                                                <h2 className='scroll-m-20 text-3xl sm:text-3xl font-semibold tracking-tight first:mt-0 flex-1 min-w-0'>
                                                     <span className='sm:hidden'>{truncateTitle(note.title, 30, true)}</span>
                                                     <span className='hidden sm:inline'>{truncateTitle(note.title)}</span>
                                                 </h2>
