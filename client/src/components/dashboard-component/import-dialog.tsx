@@ -128,7 +128,7 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Importa File TXT</DialogTitle>
+          <DialogTitle>Import TXT File</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
@@ -175,10 +175,10 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
                 <Upload className="mx-auto h-8 w-8 text-gray-400" />
                 <div>
                   <p className="text-sm font-medium">
-                    Trascina qui il tuo file TXT
+                    Import TXT File
                   </p>
                   <p className="text-xs text-gray-500">
-                    oppure clicca per selezionare
+                    or click to select
                   </p>
                 </div>
               </div>
@@ -202,19 +202,19 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
               className="flex-1"
             >
               <Upload className="h-4 w-4 mr-2" />
-              Seleziona File
+              Select File
             </Button>
             
             <div className="flex space-x-2">
               <Button variant="ghost" onClick={handleCancel}>
-                Annulla
+                Cancel
               </Button>
               <Button 
                 onClick={handleImport}
                 disabled={!selectedFile || !!error}
                 className="bg-primary"
               >
-                Importa
+                Import
               </Button>
             </div>
           </div>

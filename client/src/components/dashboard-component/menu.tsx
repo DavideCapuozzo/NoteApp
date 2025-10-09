@@ -80,11 +80,11 @@ export function Menu({ ...props }: React.ComponentProps<'div'>) {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuLabel>Il mio account</DropdownMenuLabel>
+            <DropdownMenuLabel>My account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
-              <span>Gestisci profilo</span>
+              <span>Manage profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <button onClick={handleLogout} className="cursor-pointer">

@@ -2,6 +2,12 @@
 
 > **Notebooks, but smarter.** Write, import .txt files, chat with AI, and always download your notes with a single click.
 
+## 🌐 Live Demo
+
+**🚀 [Visit NoteApp Live](https://noteapp-client.onrender.com/)**
+
+Try the app now! No installation required.
+
 <div align="center">
 
 ![React](https://img.shields.io/badge/React-19.1.1-blue?style=for-the-badge&logo=react)

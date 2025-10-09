@@ -324,7 +324,7 @@ export default function Profile() {
                                             )}
                                             <div className="flex justify-end space-x-2">
                                                 <Button variant="outline" onClick={() => setIsPasswordDialogOpen(false)} style={{ fontFamily: 'var(--font-body)' }}>
-                                                    Annulla
+                                                    Cancel
                                                 </Button>
                                                 <Button onClick={handleUpdatePassword} disabled={isLoading} style={{ fontFamily: 'var(--font-body)' }} className="hover:border hover:border-black">
                                                     {isLoading ? 'Salvataggio...' : 'Salva'}
