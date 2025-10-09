@@ -8,6 +8,7 @@ import AuthLayout from './components/auth-component/layout';
 import LayoutDashboard from './components/dashboard-component/layout-dashboard';
 import NotFound from './pages/not-found';
 import CheckAuth from './components/common/check-auth';
+import LoadingPencil from './components/common/LoadingPencil';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { checkAuth } from './store/auth-slice';
@@ -25,7 +26,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingPencil />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

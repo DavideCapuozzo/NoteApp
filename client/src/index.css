@@ -341,3 +341,30 @@ input, textarea {
 .dark.bg-\[black\] p {
   color: #ffffff !important;
 }
+
+/* Animazioni per il componente LoadingPencil */
+@keyframes pencil-move {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 2rem); /* 100% - larghezza dell'icona */
+  }
+}
+
+@keyframes draw-line {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: calc(100% - 2rem); /* Stessa larghezza del movimento della matita */
+  }
+}
+
+.animate-pencil-move {
+  animation: pencil-move 2s ease-in-out infinite;
+}
+
+.animate-draw-line {
+  animation: draw-line 2s ease-in-out infinite;
+}
