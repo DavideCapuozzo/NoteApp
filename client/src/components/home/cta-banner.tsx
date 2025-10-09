@@ -27,7 +27,7 @@ export default function CTABanner() {
           )}
         />
         <div className="relative z-0 flex flex-col gap-3">
-          <h3 className="text-3xl md:text-4xl font-semibold text-white">
+          <h3 className="text-3xl md:text-4xl font-semibold !text-white">
             Write. Import. Create. Download.
           </h3>
           <p className="mt-2 text-base md:text-lg text-white">
