@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
-
+import LoadingPencil from "../common/LoadingPencil";
 
 export default function LayoutNote() {
   const navigate = useNavigate();
@@ -120,8 +120,7 @@ export default function LayoutNote() {
     return (
       <div className="flex flex-col bg-[#fdfdfc] justify-center items-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p>Caricamento nota...</p>
+          <LoadingPencil />
         </div>
       </div>
     );

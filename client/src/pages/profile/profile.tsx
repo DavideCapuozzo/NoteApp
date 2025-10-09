@@ -41,9 +41,8 @@ export default function Profile() {
         return total;
     }, 0) || 0;
 
-    // Debug per vedere cosa contiene user
-    console.log('Profile - user object:', user);
-    console.log('Profile - isLoading:', isLoading);
+    //console.log('Profile - user object:', user);
+    //console.log('Profile - isLoading:', isLoading);
 
     // Se sta caricando, mostra loading
     if (isLoading) {
@@ -57,7 +56,6 @@ export default function Profile() {
         );
     }
 
-    // Se non c'è utente dopo il caricamento
     if (!user) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
