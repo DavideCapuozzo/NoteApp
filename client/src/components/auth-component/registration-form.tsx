@@ -42,7 +42,7 @@ export function RegistrationForm({
     if (formData.password !== formData.confirmPassword) {
       const errorMessage = "Passwords do not match";
       setError(errorMessage);
-      console.log(errorMessage); // Usa direttamente il valore invece di error
+      toast.error(errorMessage);
       return;
     } else {
       setError(""); // Resetta l'errore se le password corrispondono
@@ -122,6 +122,9 @@ export function RegistrationForm({
             onChange={handleChange}
             required
           />
+          {error && (
+            <p className="text-sm text-red-500">{error}</p>
+          )}
         </div>
         <Button type="submit" className="w-full bg-[#2FCCC3] text-white hover:bg-[#26b2ad] transition">
           Register
